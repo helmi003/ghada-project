@@ -13,22 +13,24 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: bgColor,
-      body: Padding(
-        padding: EdgeInsets.all(20),
-        child: GridView.builder(
-          itemCount: 20,
-          itemBuilder: (context, index) {
-            return ReductionWidget('Reduction ${index + 1}', () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => ReductionDetailsScreen()));
-            });
-          },
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            mainAxisSpacing: 16,
-            crossAxisSpacing: 16,
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.all(20),
+          child: GridView.builder(
+            itemCount: 20,
+            itemBuilder: (context, index) {
+              return ReductionWidget('Reduction ${index + 1}', () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ReductionDetailsScreen()));
+              });
+            },
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              mainAxisSpacing: 16,
+              crossAxisSpacing: 16,
+            ),
           ),
         ),
       ),

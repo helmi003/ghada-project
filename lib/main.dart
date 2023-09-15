@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       title: 'Ghada project',
       theme: ThemeData(),
       debugShowCheckedModeBanner: false,
-      home: RegisterScreen(),
+      home: SplashScreen(),
       routes: {
         HomeScreen.routeName: (ctx) => HomeScreen(),
         LoginScreen.routeName: (ctx) => LoginScreen(),

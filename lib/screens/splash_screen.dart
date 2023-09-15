@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:ghada/screens/home_screen.dart';
+import 'package:ghada/screens/login_screen.dart';
+import 'package:ghada/utils/colors.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -28,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen>
     super.didChangeDependencies();
     _animation.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
-        Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+        Navigator.pushReplacementNamed(context, LoginScreen.routeName);
       }
     });
     _controller.forward();
@@ -37,6 +39,7 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: bgColor,
       body: ScaleTransition(
         scale: _animation,
         child: Center(
