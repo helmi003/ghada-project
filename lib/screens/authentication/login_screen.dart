@@ -3,7 +3,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:ghada/screens/home_screen.dart';
-import 'package:ghada/screens/register_screen.dart';
+import 'package:ghada/screens/authentication/register_screen.dart';
 import 'package:ghada/utils/colors.dart';
 import 'package:ghada/widgets/buttonWidget.dart';
 import 'package:ghada/widgets/passwordFieldWidget.dart';

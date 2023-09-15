@@ -1,8 +1,7 @@
 // ignore_for_file: use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
-import 'package:ghada/screens/home_screen.dart';
-import 'package:ghada/screens/login_screen.dart';
+import 'package:ghada/screens/authentication/login_screen.dart';
 import 'package:ghada/utils/colors.dart';
 
 class SplashScreen extends StatefulWidget {

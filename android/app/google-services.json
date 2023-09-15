@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "917091564780",
+    "project_id": "ghada-f3da5",
+    "storage_bucket": "ghada-f3da5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:917091564780:android:fda5fb118b31537bf339c9",
+        "android_client_info": {
+          "package_name": "com.example.ghada"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-_3teB4vJk22ic-g26mtcxBoPle4kRTE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

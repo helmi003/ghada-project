@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:ghada/screens/reduction_detail.dart';
 import 'package:ghada/screens/reduction_details_screen.dart';
 import 'package:ghada/utils/colors.dart';
 import 'package:ghada/widgets/reductionWidget.dart';
@@ -15,7 +16,7 @@ class HomeScreen extends StatelessWidget {
       backgroundColor: bgColor,
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.all(20),
+          padding: EdgeInsets.symmetric(horizontal:20,vertical: 5),
           child: GridView.builder(
             itemCount: 20,
             itemBuilder: (context, index) {
@@ -23,7 +24,7 @@ class HomeScreen extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => ReductionDetailsScreen()));
+                        builder: (context) => ReductionDetail('Reduction ${index + 1}')));
               });
             },
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

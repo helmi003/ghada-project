@@ -1,12 +1,16 @@
 // ignore_for_file: prefer_const_constructors, equal_keys_in_map
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:ghada/screens/home_screen.dart';
-import 'package:ghada/screens/login_screen.dart';
-import 'package:ghada/screens/register_screen.dart';
+import 'package:ghada/screens/authentication/login_screen.dart';
+import 'package:ghada/screens/reduction_detail.dart';
+import 'package:ghada/screens/authentication/register_screen.dart';
 import 'package:ghada/screens/splash_screen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
