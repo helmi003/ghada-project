@@ -35,50 +35,66 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       backgroundColor: bgColor,
       body: SafeArea(
-        child: Column(
+        child: Stack(
           children: [
-            SizedBox(height: 20),
-            Image.asset(
-              'assets/images/logo-name.png',
-              height: 175,
-              width: 150,
-            ),
-            SizedBox(height: 20),
-            TextFieldWidget(emailController, 'Email'),
-            SizedBox(height: 20),
-            PasswordFieldWidget(passwordController, 'Password'),
-            Expanded(child: SizedBox()),
-            ButtonWidget(() {
-              Navigator.pushReplacementNamed(context, HomeScreen.routeName);
-            }, 'Log In', false),
-            SizedBox(height: 10),
-            Center(
-              child: RichText(
-                text: TextSpan(
-                    text: "You don't have an account? ",
-                    children: [
-                      TextSpan(
-                        text: 'Register',
-                        style: TextStyle(
-                            color: lightColor, fontWeight: FontWeight.bold),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => RegisterScreen()));
-                          },
-                      )
-                    ],
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: lightColor,
-                    )),
+            Positioned(
+              bottom: 10,
+              right: 10,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.asset(
+                  'assets/images/laboratoire logo.jpeg',
+                  width: 100,
+                ),
               ),
             ),
-            SizedBox(
-              height: 30,
-            )
+            Column(
+              children: [
+                SizedBox(height: 20),
+                Image.asset(
+                  'assets/images/logo-name.png',
+                  height: 175,
+                  width: 150,
+                ),
+                SizedBox(height: 20),
+                TextFieldWidget(emailController, 'Email'),
+                SizedBox(height: 20),
+                PasswordFieldWidget(passwordController, 'Password'),
+                Expanded(child: SizedBox()),
+                ButtonWidget(() {
+                  Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+                }, 'Log In', false),
+                SizedBox(height: 10),
+                Center(
+                  child: RichText(
+                    text: TextSpan(
+                        text: "You don't have an account? ",
+                        children: [
+                          TextSpan(
+                            text: 'Register',
+                            style: TextStyle(
+                                color: warmBlueColor, fontWeight: FontWeight.bold),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            RegisterScreen()));
+                              },
+                          )
+                        ],
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: lightColor,
+                        )),
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                )
+              ],
+            ),
           ],
         ),
       ),

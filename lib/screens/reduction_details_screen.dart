@@ -17,20 +17,35 @@ class _ReductionDetailsScreenState extends State<ReductionDetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: bgColor,
-      body: Padding(
-        padding: EdgeInsets.all(20),
-        child: Column(
-          children: [
-            SizedBox(
-              height: 450,
-              child: WebView(
-                backgroundColor: bgColor,
-                initialUrl: "https://app.vectary.com/p/0s424nRCVGOuzLvEKHPoaP",
-                javascriptMode: JavascriptMode.unrestricted,
+      body: Stack(
+        children: [
+          Positioned(
+                bottom: 10,
+                right: 10,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Image.asset(
+                    'assets/images/laboratoire logo.jpeg',
+                    width: 100,
+                  ),
+                ),
               ),
+          Padding(
+            padding: EdgeInsets.all(20),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 450,
+                  child: WebView(
+                    backgroundColor: bgColor,
+                    initialUrl: "https://app.vectary.com/p/0s424nRCVGOuzLvEKHPoaP",
+                    javascriptMode: JavascriptMode.unrestricted,
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

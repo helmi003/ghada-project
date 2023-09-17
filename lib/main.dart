@@ -4,8 +4,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:ghada/screens/home_screen.dart';
 import 'package:ghada/screens/authentication/login_screen.dart';
-import 'package:ghada/screens/reduction_detail.dart';
-import 'package:ghada/screens/authentication/register_screen.dart';
 import 'package:ghada/screens/splash_screen.dart';
 
 void main() async {
