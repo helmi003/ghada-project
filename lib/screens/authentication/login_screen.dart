@@ -65,42 +65,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       height: 175,
                       width: 150,
                     ),
-                    TextFieldWidget(emailController, 'Email'),
-                    emailError != ""
-                        ? Row(
-                            children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 40, top: 5),
-                                child: Text(
-                                  emailError,
-                                  style: TextStyle(
-                                    color: redColor,
-                                    fontSize: 12,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          )
-                        : Container(),
-                    PasswordFieldWidget(passwordController, 'Password'),
-                    passwordError != ""
-                        ? Row(
-                            children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 40, top: 5),
-                                child: Text(
-                                  passwordError,
-                                  style: TextStyle(
-                                    color: redColor,
-                                    fontSize: 12,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          )
-                        : Container(),
+                    SizedBox(height: 20),
+                    TextFieldWidget(emailController, 'Email', emailError),
+                    SizedBox(height: emailError != "" ? 5 : 20),
+                    PasswordFieldWidget(
+                        passwordController, 'Password', passwordError),
                     Expanded(child: SizedBox()),
                     ButtonWidget(login, 'Log In', false),
                     SizedBox(height: 10),

@@ -128,74 +128,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           : Container()
                     ],
                   ),
-                  TextFieldWidget(nameController, 'Name'),
-                  firstNameError != ""
-                      ? Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 40, top: 5),
-                              child: Text(
-                                firstNameError,
-                                style: TextStyle(
-                                  color: redColor,
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ),
-                          ],
-                        )
-                      : Container(),
-                  TextFieldWidget(lastNameController, 'Last name'),
-                  lastNameError != ""
-                      ? Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 40, top: 5),
-                              child: Text(
-                                lastNameError,
-                                style: TextStyle(
-                                  color: redColor,
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ),
-                          ],
-                        )
-                      : Container(),
-                  TextFieldWidget(emailController, 'Email'),
-                  emailError != ""
-                      ? Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 40, top: 5),
-                              child: Text(
-                                emailError,
-                                style: TextStyle(
-                                  color: redColor,
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ),
-                          ],
-                        )
-                      : Container(),
-                  PasswordFieldWidget(passwordController, 'Password'),
-                  passwordError != ""
-                      ? Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 40, top: 5),
-                              child: Text(
-                                passwordError,
-                                style: TextStyle(
-                                  color: redColor,
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ),
-                          ],
-                        )
-                      : Container(),
+                  TextFieldWidget(nameController, 'Name', firstNameError),
+                  SizedBox(height: firstNameError != "" ? 5 : 20),
+                  TextFieldWidget(
+                      lastNameController, 'Last name', lastNameError),
+                  SizedBox(height: lastNameError != "" ? 5 : 20),
+                  TextFieldWidget(emailController, 'Email', emailError),
+                  SizedBox(height: emailError != "" ? 5 : 20),
+                  PasswordFieldWidget(
+                      passwordController, 'Password', passwordError),
                   Padding(
                     padding: const EdgeInsets.only(left: 25, top: 20),
                     child: Row(

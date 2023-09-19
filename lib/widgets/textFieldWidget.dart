@@ -5,8 +5,9 @@ import 'package:ghada/utils/colors.dart';
 
 class TextFieldWidget extends StatefulWidget {
   final TextEditingController controller;
+  final String error;
   final String label;
-  TextFieldWidget(this.controller,this.label);
+  TextFieldWidget(this.controller, this.label, this.error);
 
   @override
   State<TextFieldWidget> createState() => _TextFieldWidgetState();
@@ -15,34 +16,53 @@ class TextFieldWidget extends StatefulWidget {
 class _TextFieldWidgetState extends State<TextFieldWidget> {
   @override
   Widget build(BuildContext context) {
-
-    return Padding(
-              padding: EdgeInsets.only(left: 20, right: 20, top: 20),
-              child: TextFormField(
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return "The ${widget.label} is required";
-                    }
-                    return null;
-                  },
-                  cursorColor: warmBlueColor,
-                  controller: widget.controller,
-                  decoration: InputDecoration(
-                    fillColor: Colors.transparent,
-                    filled: true,
-                    border: InputBorder.none,
-                    labelText: widget.label,
-                    labelStyle: TextStyle(color: darkColor, fontSize: 16),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      borderSide: BorderSide(color: lightColor,width: 2),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      borderSide: BorderSide(color: lightColor,width: 2),
+    return Column(
+      children: [
+        Padding(
+          padding: EdgeInsets.only(left: 20, right: 20),
+          child: TextFormField(
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return "The ${widget.label} is required";
+                }
+                return null;
+              },
+              cursorColor: warmBlueColor,
+              controller: widget.controller,
+              decoration: InputDecoration(
+                fillColor: Colors.transparent,
+                filled: true,
+                border: InputBorder.none,
+                labelText: widget.label,
+                labelStyle: TextStyle(color: darkColor, fontSize: 16),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
+                  borderSide: BorderSide(color: lightColor, width: 2),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
+                  borderSide: BorderSide(color: lightColor, width: 2),
+                ),
+              ),
+              style: TextStyle(color: darkColor, fontSize: 16)),
+        ),
+        widget.error != ""
+            ? Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 40, top: 5),
+                    child: Text(
+                      widget.error,
+                      style: TextStyle(
+                        color: redColor,
+                        fontSize: 12,
+                      ),
                     ),
                   ),
-                  style: TextStyle(color: darkColor, fontSize: 16)),
-            );
+                ],
+              )
+            : Container(),
+      ],
+    );
   }
 }
