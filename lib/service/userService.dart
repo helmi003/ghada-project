@@ -12,7 +12,8 @@ class UserService {
   Future addUserData(String uid, String name, String lastName, String email,
       String gender, String photo) async {
     return await userCollection.doc(uid).set({
-      "name": lastName,
+      "name": name,
+      "lastName": lastName,
       "email": email,
       "gender": gender,
       "profilePic": photo,
@@ -21,5 +22,8 @@ class UserService {
 
   UserData(String uid) async {
     return userCollection.doc(uid).get();
+  }
+  signOut() async {
+    await auth.signOut();
   }
 }

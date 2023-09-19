@@ -2,6 +2,8 @@
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:ghada/screens/Tab_screen.dart';
+import 'package:ghada/screens/authentication/register_screen.dart';
 import 'package:ghada/screens/home_screen.dart';
 import 'package:ghada/screens/authentication/login_screen.dart';
 import 'package:ghada/screens/splash_screen.dart';
@@ -25,6 +27,8 @@ class MyApp extends StatelessWidget {
       routes: {
         HomeScreen.routeName: (ctx) => HomeScreen(),
         LoginScreen.routeName: (ctx) => LoginScreen(),
+        RegisterScreen.routeName: (ctx) => RegisterScreen(),
+        TabScreen.routeName: (ctx) => TabScreen(),
       },
     );
   }

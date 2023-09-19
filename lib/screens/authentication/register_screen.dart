@@ -6,8 +6,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:ghada/screens/Tab_screen.dart';
 import 'package:ghada/screens/authentication/login_screen.dart';
-import 'package:ghada/screens/home_screen.dart';
 import 'package:ghada/service/userService.dart';
 import 'package:ghada/utils/colors.dart';
 import 'package:ghada/widgets/bottomSheet.dart';
@@ -392,7 +392,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             emailController.text,
             gender.toString(),
             photo);
-        Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+        Navigator.pushReplacementNamed(context, TabScreen.routeName);
         setState(() {
           isLoading = false;
         });

@@ -1,11 +1,14 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, use_build_context_synchronously
 
+import 'package:email_validator/email_validator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:ghada/screens/home_screen.dart';
+import 'package:ghada/screens/Tab_screen.dart';
 import 'package:ghada/screens/authentication/register_screen.dart';
 import 'package:ghada/utils/colors.dart';
 import 'package:ghada/widgets/buttonWidget.dart';
+import 'package:ghada/widgets/errorMessage.dart';
 import 'package:ghada/widgets/passwordFieldWidget.dart';
 import 'package:ghada/widgets/textFieldWidget.dart';
 
@@ -30,74 +33,154 @@ class _LoginScreenState extends State<LoginScreen> {
   String errorMsg = "";
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  String emailError = "";
+  String passwordError = "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: bgColor,
       body: SafeArea(
-        child: Stack(
-          children: [
-            Positioned(
-              bottom: 10,
-              right: 10,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: Image.asset(
-                  'assets/images/laboratoire logo.jpeg',
-                  width: 100,
-                ),
-              ),
-            ),
-            Column(
-              children: [
-                SizedBox(height: 20),
-                Image.asset(
-                  'assets/images/logo-name.png',
-                  height: 175,
-                  width: 150,
-                ),
-                SizedBox(height: 20),
-                TextFieldWidget(emailController, 'Email'),
-                SizedBox(height: 20),
-                PasswordFieldWidget(passwordController, 'Password'),
-                Expanded(child: SizedBox()),
-                ButtonWidget(() {
-                  Navigator.pushReplacementNamed(context, HomeScreen.routeName);
-                }, 'Log In', false),
-                SizedBox(height: 10),
-                Center(
-                  child: RichText(
-                    text: TextSpan(
-                        text: "You don't have an account? ",
-                        children: [
-                          TextSpan(
-                            text: 'Register',
-                            style: TextStyle(
-                                color: warmBlueColor, fontWeight: FontWeight.bold),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            RegisterScreen()));
-                              },
-                          )
-                        ],
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: lightColor,
-                        )),
+        child: SingleChildScrollView(
+          child: Stack(
+            children: [
+              Positioned(
+                bottom: 10,
+                right: 10,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Image.asset(
+                    'assets/images/laboratoire logo.jpeg',
+                    width: 100,
                   ),
                 ),
-                SizedBox(
-                  height: 10,
-                )
-              ],
-            ),
-          ],
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height - 76,
+                child: Column(
+                  children: [
+                    SizedBox(height: 20),
+                    Image.asset(
+                      'assets/images/logo-name.png',
+                      height: 175,
+                      width: 150,
+                    ),
+                    TextFieldWidget(emailController, 'Email'),
+                    emailError != ""
+                        ? Row(
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 40, top: 5),
+                                child: Text(
+                                  emailError,
+                                  style: TextStyle(
+                                    color: redColor,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )
+                        : Container(),
+                    PasswordFieldWidget(passwordController, 'Password'),
+                    passwordError != ""
+                        ? Row(
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 40, top: 5),
+                                child: Text(
+                                  passwordError,
+                                  style: TextStyle(
+                                    color: redColor,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )
+                        : Container(),
+                    Expanded(child: SizedBox()),
+                    ButtonWidget(login, 'Log In', false),
+                    SizedBox(height: 10),
+                    Center(
+                      child: RichText(
+                        text: TextSpan(
+                            text: "You don't have an account? ",
+                            children: [
+                              TextSpan(
+                                text: 'Register',
+                                style: TextStyle(
+                                    color: warmBlueColor,
+                                    fontWeight: FontWeight.bold),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                RegisterScreen()));
+                                  },
+                              )
+                            ],
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: lightColor,
+                            )),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    )
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
+  }
+
+  login() async {
+    try {
+      if (emailController.text.isEmpty) {
+        setState(() {
+          emailError = "This field is empty";
+          passwordError = "";
+        });
+      } else if (!EmailValidator.validate(emailController.text)) {
+        setState(() {
+          emailError = "This is an incorrect email";
+          passwordError = "";
+        });
+      } else if (passwordController.text.isEmpty) {
+        setState(() {
+          passwordError = "This field is empty";
+          emailError = "";
+        });
+      } else {
+        setState(() {
+          isLoading = true;
+        });
+        await auth.signInWithEmailAndPassword(
+            email: emailController.text, password: passwordController.text);
+        setState(() {
+          isLoading = false;
+        });
+        Navigator.pushReplacementNamed(context, TabScreen.routeName);
+      }
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+      });
+      showDialog(
+          context: context,
+          builder: (BuildContext buildContext) {
+            return ErrorMessage(
+                'Error', "The email or password is badly formatted!");
+          });
+    }
   }
 }
