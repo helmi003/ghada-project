@@ -32,8 +32,8 @@ class _TabScreenState extends State<TabScreen> {
         decoration: BoxDecoration(
           color: warmBlueColor,
           borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(30.0),
-            topRight: Radius.circular(30.0),
+            topLeft: Radius.circular(30),
+            topRight: Radius.circular(30),
           ),
         ),
         child: GNav(

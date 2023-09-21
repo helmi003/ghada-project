@@ -42,70 +42,55 @@ class _LoginScreenState extends State<LoginScreen> {
       backgroundColor: bgColor,
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Stack(
-            children: [
-              Positioned(
-                bottom: 10,
-                right: 10,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Image.asset(
-                    'assets/images/laboratoire logo.jpeg',
-                    width: 100,
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height - 76,
+            child: Column(
+              children: [
+                SizedBox(height: 20),
+                Image.asset(
+                  'assets/images/logo-name.png',
+                  height: 175,
+                  width: 150,
+                ),
+                SizedBox(height: 20),
+                TextFieldWidget(emailController, 'Email', emailError),
+                SizedBox(height: emailError != "" ? 5 : 20),
+                PasswordFieldWidget(
+                    passwordController, 'Password', passwordError),
+                Expanded(child: SizedBox()),
+                ButtonWidget(login, 'Log In', false),
+                SizedBox(height: 10),
+                Center(
+                  child: RichText(
+                    text: TextSpan(
+                        text: "You don't have an account? ",
+                        children: [
+                          TextSpan(
+                            text: 'Register',
+                            style: TextStyle(
+                                color: warmBlueColor,
+                                fontWeight: FontWeight.bold),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            RegisterScreen()));
+                              },
+                          )
+                        ],
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: lightColor,
+                        )),
                   ),
                 ),
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height - 76,
-                child: Column(
-                  children: [
-                    SizedBox(height: 20),
-                    Image.asset(
-                      'assets/images/logo-name.png',
-                      height: 175,
-                      width: 150,
-                    ),
-                    SizedBox(height: 20),
-                    TextFieldWidget(emailController, 'Email', emailError),
-                    SizedBox(height: emailError != "" ? 5 : 20),
-                    PasswordFieldWidget(
-                        passwordController, 'Password', passwordError),
-                    Expanded(child: SizedBox()),
-                    ButtonWidget(login, 'Log In', false),
-                    SizedBox(height: 10),
-                    Center(
-                      child: RichText(
-                        text: TextSpan(
-                            text: "You don't have an account? ",
-                            children: [
-                              TextSpan(
-                                text: 'Register',
-                                style: TextStyle(
-                                    color: warmBlueColor,
-                                    fontWeight: FontWeight.bold),
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                RegisterScreen()));
-                                  },
-                              )
-                            ],
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: lightColor,
-                            )),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    )
-                  ],
-                ),
-              ),
-            ],
+                SizedBox(
+                  height: 10,
+                )
+              ],
+            ),
           ),
         ),
       ),

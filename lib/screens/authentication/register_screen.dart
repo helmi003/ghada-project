@@ -51,137 +51,123 @@ class _RegisterScreenState extends State<RegisterScreen> {
       backgroundColor: bgColor,
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Stack(
+          child: Column(
             children: [
-              Positioned(
-                bottom: 10,
-                right: 10,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Image.asset(
-                    'assets/images/laboratoire logo.jpeg',
-                    width: 100,
-                  ),
-                ),
-              ),
-              Column(
+              SizedBox(height: 10),
+              Stack(
                 children: [
-                  SizedBox(height: 10),
-                  Stack(
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          showModalBottomSheet(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(16),
-                                    topLeft: Radius.circular(16)),
-                              ),
-                              backgroundColor: lightColor,
-                              context: context,
-                              builder: ((builder) => BottomSheetCamera(() {
-                                    takephoto(
-                                      ImageSource.camera,
-                                    );
-                                  }, () {
-                                    takephoto(
-                                      ImageSource.gallery,
-                                    );
-                                  })));
-                        },
-                        child: Center(
-                          child: ClipRRect(
-                              borderRadius: BorderRadius.circular(90),
-                              child: _photo != null
-                                  ? Container(
-                                      constraints: BoxConstraints(
-                                          maxHeight: 200, maxWidth: 200),
-                                      decoration: BoxDecoration(
-                                          image: DecorationImage(
-                                        fit: BoxFit.cover,
-                                        image: FileImage(
-                                          _photo!,
-                                        ),
-                                      )))
-                                  : Image.asset(
-                                      'assets/images/user.png',
-                                      width: 200,
-                                      height: 200,
-                                    )),
-                        ),
-                      ),
-                      _photo != null
-                          ? Positioned(
-                              bottom: -10,
-                              right: 80,
-                              child: IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      _photo = null;
-                                    });
-                                  },
-                                  icon: Icon(
-                                    Icons.delete,
-                                    color: warmBlueColor,
-                                    size: 30,
+                  GestureDetector(
+                    onTap: () {
+                      showModalBottomSheet(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(16),
+                                topLeft: Radius.circular(16)),
+                          ),
+                          backgroundColor: lightColor,
+                          context: context,
+                          builder: ((builder) => BottomSheetCamera(() {
+                                takephoto(
+                                  ImageSource.camera,
+                                );
+                              }, () {
+                                takephoto(
+                                  ImageSource.gallery,
+                                );
+                              })));
+                    },
+                    child: Center(
+                      child: ClipRRect(
+                          borderRadius: BorderRadius.circular(90),
+                          child: _photo != null
+                              ? Container(
+                                  constraints: BoxConstraints(
+                                      maxHeight: 200, maxWidth: 200),
+                                  decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: FileImage(
+                                      _photo!,
+                                    ),
                                   )))
-                          : Container()
-                    ],
-                  ),
-                  TextFieldWidget(nameController, 'Name', firstNameError),
-                  SizedBox(height: firstNameError != "" ? 5 : 20),
-                  TextFieldWidget(
-                      lastNameController, 'Last name', lastNameError),
-                  SizedBox(height: lastNameError != "" ? 5 : 20),
-                  TextFieldWidget(emailController, 'Email', emailError),
-                  SizedBox(height: emailError != "" ? 5 : 20),
-                  PasswordFieldWidget(
-                      passwordController, 'Password', passwordError),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 25, top: 20),
-                    child: Row(
-                      children: [
-                        Text('Gender:',
-                            style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: warmBlueColor)),
-                      ],
+                              : Image.asset(
+                                  'assets/images/user.png',
+                                  width: 200,
+                                  height: 200,
+                                )),
                     ),
                   ),
-                  SelectRadioButton(),
-                  ButtonWidget(register, 'Register', isLoading),
-                  SizedBox(height: 10),
-                  Center(
-                    child: RichText(
-                      text: TextSpan(
-                          text: 'Already have an account? ',
-                          children: [
-                            TextSpan(
-                              text: 'Log In',
-                              style: TextStyle(
-                                  color: warmBlueColor,
-                                  fontWeight: FontWeight.bold),
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => LoginScreen()));
-                                },
-                            )
-                          ],
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: lightColor,
-                          )),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  )
+                  _photo != null
+                      ? Positioned(
+                          bottom: -10,
+                          right: 80,
+                          child: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  _photo = null;
+                                });
+                              },
+                              icon: Icon(
+                                Icons.delete,
+                                color: warmBlueColor,
+                                size: 30,
+                              )))
+                      : Container()
                 ],
               ),
+              SizedBox(height: 20),
+              TextFieldWidget(nameController, 'Name', firstNameError),
+              SizedBox(height: firstNameError != "" ? 5 : 20),
+              TextFieldWidget(
+                  lastNameController, 'Last name', lastNameError),
+              SizedBox(height: lastNameError != "" ? 5 : 20),
+              TextFieldWidget(emailController, 'Email', emailError),
+              SizedBox(height: emailError != "" ? 5 : 20),
+              PasswordFieldWidget(
+                  passwordController, 'Password', passwordError),
+              Padding(
+                padding: const EdgeInsets.only(left: 25, top: 20),
+                child: Row(
+                  children: [
+                    Text('Gender:',
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: warmBlueColor)),
+                  ],
+                ),
+              ),
+              SelectRadioButton(),
+              ButtonWidget(register, 'Register', isLoading),
+              SizedBox(height: 10),
+              Center(
+                child: RichText(
+                  text: TextSpan(
+                      text: 'Already have an account? ',
+                      children: [
+                        TextSpan(
+                          text: 'Log In',
+                          style: TextStyle(
+                              color: warmBlueColor,
+                              fontWeight: FontWeight.bold),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => LoginScreen()));
+                            },
+                        )
+                      ],
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: lightColor,
+                      )),
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              )
             ],
           ),
         ),
