@@ -58,7 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 PasswordFieldWidget(
                     passwordController, 'Password', passwordError),
                 Expanded(child: SizedBox()),
-                ButtonWidget(login, 'Log In', false),
+                ButtonWidget(login, 'Log In', isLoading),
                 SizedBox(height: 10),
                 Center(
                   child: RichText(

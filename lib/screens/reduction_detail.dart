@@ -162,7 +162,7 @@ class _ReductionDetailState extends State<ReductionDetail> {
                   ),
                 );
               } else {
-                return Center(child: CircularProgressIndicator());
+                return Center(child: CircularProgressIndicator(color: lightColor,));
               }
             },
           ),

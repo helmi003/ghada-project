@@ -133,9 +133,7 @@ class _SelectBondedDevicePage extends State<SelectBondedDevicePage> {
                     child: Container(
                       margin: EdgeInsets.all(16),
                       child: CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(
-                          lightColor,
-                        ),
+                        color: lightColor,
                       ),
                     ),
                   )
