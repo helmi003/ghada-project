@@ -26,7 +26,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
         builder: (context, snapshot) {
           if (snapshot.connectionState != ConnectionState.done) {
             return Center(
-              child: CircularProgressIndicator(color: lightColor,),
+              child: CircularProgressIndicator(
+                color: lightColor,
+              ),
             );
           } else {
             final user = snapshot.data!.data();
@@ -38,7 +40,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                          color: warmBlueColor,
+                            color: warmBlueColor,
                             borderRadius: BorderRadius.circular(110)),
                         width: 220,
                         height: 220,

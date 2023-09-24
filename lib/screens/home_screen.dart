@@ -2,17 +2,25 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
+import 'package:ghada/data/rehab.dart';
 import 'package:ghada/screens/bluetooth/SelectBondedDevicePage.dart';
 import 'package:ghada/screens/reduction_detail.dart';
+import 'package:ghada/screens/reduction_test.dart';
 import 'package:ghada/utils/colors.dart';
 import 'package:ghada/widgets/appbar.dart';
 import 'package:ghada/widgets/errorMessage.dart';
 import 'package:ghada/widgets/reductionWidget.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
   static const routeName = "/HomeScreen";
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  BluetoothDevice? selectedDevice;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +30,7 @@ class HomeScreen extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
           child: GridView.builder(
-            itemCount: 20,
+            itemCount: rehab.length,
             itemBuilder: (context, index) {
               return ReductionWidget('Rehabilitation ${index + 1}', () async {
                 bool? isEnabled =
@@ -34,24 +42,30 @@ class HomeScreen extends StatelessWidget {
                       builder: (context) => ErrorMessage(
                           'Alert', 'You have to open Bluetooth first!'));
                 } else {
-                  final BluetoothDevice? selectedDevice =
-                      await Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return SelectBondedDevicePage(checkAvailability: false);
-                      },
-                    ),
-                  );
                   if (selectedDevice != null) {
-                    print('Connect -> selected ' + selectedDevice.address);
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => ReductionDetail(
                                 'Rehabilitation ${index + 1}',
-                                selectedDevice)));
+                                rehab[index].video,
+                                selectedDevice!)));
                   } else {
-                    print('Connect -> no device selected');
+                    selectedDevice = await Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return SelectBondedDevicePage(
+                              checkAvailability: false);
+                        },
+                      ),
+                    );
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ReductionDetail(
+                                'Rehabilitation ${index + 1}',
+                                rehab[index].video,
+                                selectedDevice!)));
                   }
                 }
               });

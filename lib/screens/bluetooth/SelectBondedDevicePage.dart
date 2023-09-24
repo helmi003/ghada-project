@@ -104,9 +104,7 @@ class _SelectBondedDevicePage extends State<SelectBondedDevicePage> {
 
   @override
   void dispose() {
-    // Avoid memory leak (`setState` after dispose) and cancel discovery
     _discoveryStreamSubscription?.cancel();
-
     super.dispose();
   }
 

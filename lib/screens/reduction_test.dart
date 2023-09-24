@@ -1,37 +1,28 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_key_in_widget_constructors, prefer_const_constructors_in_immutables, prefer_const_declarations, no_leading_underscores_for_local_identifiers
 
 import 'dart:async';
-import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:ghada/utils/colors.dart';
 import 'package:video_player/video_player.dart';
 
-class ReductionDetail extends StatefulWidget {
+class ReductionTest extends StatefulWidget {
   final String name;
-  final BluetoothDevice server;
   final String video;
 
-  ReductionDetail(this.name, this.video, this.server);
+  ReductionTest(this.name, this.video);
 
-  static const routeName = "/ReductionDetail";
+  static const routeName = "/ReductionTest";
 
   @override
-  State<ReductionDetail> createState() => _ReductionDetailState();
+  State<ReductionTest> createState() => _ReductionTestState();
 }
 
-class _ReductionDetailState extends State<ReductionDetail> {
+class _ReductionTestState extends State<ReductionTest> {
   late VideoPlayerController controller;
   late Future<void> _initializeVideoPlayerFuture;
   StreamController<bool> loopController = StreamController<bool>();
   int counter = 0;
   Timer? timer;
-  BluetoothConnection? connection;
-  String lastMessage = 'No messages yet!';
-  String checkConnectivity = '';
-
-  bool isConnecting = true;
-  bool get isConnected => (connection?.isConnected ?? false);
 
   bool isDisconnecting = false;
   @override
@@ -65,36 +56,6 @@ class _ReductionDetailState extends State<ReductionDetail> {
       print('Error initializing video player: $e');
     }
     super.initState();
-    BluetoothConnection.toAddress(widget.server.address).then((_connection) {
-      setState(() {
-        checkConnectivity = 'Connected to the device';
-      });
-      connection = _connection;
-      setState(() {
-        isConnecting = false;
-        isDisconnecting = false;
-      });
-
-      connection!.input!.listen(_onDataReceived).onDone(() {
-        if (isDisconnecting) {
-          setState(() {
-            checkConnectivity = 'Disconnecting locally!';
-          });
-        } else {
-          setState(() {
-            checkConnectivity = 'Disconnected remotely!';
-          });
-        }
-        if (this.mounted) {
-          setState(() {});
-        }
-      });
-    }).catchError((error) {
-      setState(() {
-        checkConnectivity = 'Cannot connect, exception occured';
-      });
-      print(error);
-    });
   }
 
   @override
@@ -102,12 +63,6 @@ class _ReductionDetailState extends State<ReductionDetail> {
     timer?.cancel();
     loopController.close();
     controller.dispose();
-    if (isConnected) {
-      isDisconnecting = true;
-      connection?.dispose();
-      connection = null;
-    }
-
     super.dispose();
   }
 
@@ -132,21 +87,7 @@ class _ReductionDetailState extends State<ReductionDetail> {
             ),
           ),
           elevation: 0),
-      body:
-          // Stack(
-          //   children: [
-          // Positioned(
-          //   bottom: 10,
-          //   right: 10,
-          //   child: ClipRRect(
-          //     borderRadius: BorderRadius.circular(10),
-          //     child: Image.asset(
-          //       'assets/images/laboratoire logo.jpeg',
-          //       width: 100,
-          //     ),
-          //   ),
-          // ),
-          Column(
+      body: Column(
         children: [
           FutureBuilder(
             future: _initializeVideoPlayerFuture,
@@ -253,11 +194,6 @@ class _ReductionDetailState extends State<ReductionDetail> {
                   ),
                 ]),
           ),
-          Text(
-            checkConnectivity,
-            style: TextStyle(
-                color: lightColor, fontSize: 20, fontWeight: FontWeight.w600),
-          ),
           Padding(
             padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
             child: Container(
@@ -268,7 +204,7 @@ class _ReductionDetailState extends State<ReductionDetail> {
                   color: warmBlueColor),
               child: Center(
                   child: Text(
-                lastMessage,
+                'Message',
                 style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -278,15 +214,6 @@ class _ReductionDetailState extends State<ReductionDetail> {
           )
         ],
       ),
-      //   ],
-      // ),
     );
-  }
-
-  void _onDataReceived(Uint8List data) {
-    String dataString = String.fromCharCodes(data);
-    setState(() {
-      lastMessage = dataString;
-    });
   }
 }
