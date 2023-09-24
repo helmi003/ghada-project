@@ -78,7 +78,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     },
                     child: Center(
                       child: ClipRRect(
-                          borderRadius: BorderRadius.circular(90),
+                          borderRadius: BorderRadius.circular(100),
                           child: _photo != null
                               ? Container(
                                   constraints: BoxConstraints(
@@ -118,8 +118,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               SizedBox(height: 20),
               TextFieldWidget(nameController, 'Name', firstNameError),
               SizedBox(height: firstNameError != "" ? 5 : 20),
-              TextFieldWidget(
-                  lastNameController, 'Last name', lastNameError),
+              TextFieldWidget(lastNameController, 'Last name', lastNameError),
               SizedBox(height: lastNameError != "" ? 5 : 20),
               TextFieldWidget(emailController, 'Email', emailError),
               SizedBox(height: emailError != "" ? 5 : 20),
@@ -129,7 +128,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 padding: const EdgeInsets.only(left: 25, top: 20),
                 child: Row(
                   children: [
-                    Text('Gender:',
+                    Text('Choose a type:',
                         style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
@@ -300,18 +299,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
             email: emailController.text, password: passwordController.text);
         gender = character!.name;
         String uid = FirebaseAuth.instance.currentUser!.uid;
-
-        if (_photo != null) {
-          final imgId = DateTime.now().millisecondsSinceEpoch.toString();
-          Reference reference =
-              FirebaseStorage.instance.ref().child("profile/$uid/$imgId");
-          await reference.putFile(_photo!);
-          photo = await reference.getDownloadURL();
-          FirebaseFirestore.instance
-              .collection('users')
-              .doc(uid)
-              .update({'profilePic': photo});
-        }
         await UserService().addUserData(
             uid,
             nameController.text,
@@ -319,6 +306,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
             emailController.text,
             gender.toString(),
             photo);
+        if (_photo != null) {
+          final imgId = DateTime.now().millisecondsSinceEpoch.toString();
+          Reference reference =
+              FirebaseStorage.instance.ref()
+              .child("profile/$uid/$imgId");
+          await reference.putFile(_photo!);
+          photo = await reference.getDownloadURL();
+          FirebaseFirestore.instance
+              .collection('users')
+              .doc(uid)
+              .update({'profilePic': photo});
+        }
         Navigator.pushReplacementNamed(context, TabScreen.routeName);
         setState(() {
           isLoading = false;

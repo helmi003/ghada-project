@@ -6,9 +6,8 @@ import 'package:ghada/utils/colors.dart';
 PreferredSizeWidget appBar(BuildContext context) {
   return AppBar(
       backgroundColor: lightColor,
-      // centerTitle: true,
       title: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
            Image.asset(
               'assets/images/laboratoire logo.jpeg',
