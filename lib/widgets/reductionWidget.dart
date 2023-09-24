@@ -17,6 +17,7 @@ class ReductionWidget extends StatelessWidget {
         height: 80,
         child: Center(
           child: Text(
+            textAlign: TextAlign.center,
             label,
             style: TextStyle(
                 fontSize: 20, fontWeight: FontWeight.bold, color: lightColor),

@@ -22,6 +22,7 @@ class ReductionDetail extends StatefulWidget {
 class _ReductionDetailState extends State<ReductionDetail> {
   late VideoPlayerController controller;
   late Future<void> _initializeVideoPlayerFuture;
+  StreamController<bool> loopController = StreamController<bool>();
   int counter = 0;
   Timer? timer;
   BluetoothConnection? connection;
@@ -37,7 +38,20 @@ class _ReductionDetailState extends State<ReductionDetail> {
     try {
       controller = VideoPlayerController.asset('assets/videos/moving_hand.mp4');
       _initializeVideoPlayerFuture = controller.initialize();
-      controller.setLooping(true);
+      controller.setLooping(false);
+
+      controller.addListener(() {
+        if (controller.value.position == controller.value.duration) {
+          loopController.add(true);
+        }
+      });
+      loopController.stream.listen((isLooping) {
+        if (isLooping) {
+          setState(() {
+            counter = 0;
+          });
+        }
+      });
       controller.setVolume(0);
       timer = Timer.periodic(Duration(seconds: 1), (timer) {
         if (controller.value.isPlaying) {
@@ -85,6 +99,7 @@ class _ReductionDetailState extends State<ReductionDetail> {
   @override
   void dispose() {
     timer?.cancel();
+    loopController.close();
     controller.dispose();
     if (isConnected) {
       isDisconnecting = true;
