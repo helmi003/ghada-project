@@ -28,9 +28,9 @@ class _PatientScreenState extends State<PatientScreen> {
   void _loadUserData() async {
     final prefs = await SharedPreferences.getInstance();
     String? encodedMap = prefs.getString('user');
-    print(prefs.getString('user'));
     setState(() {
       userData = json.decode(encodedMap!);
+      print(userData);
     });
   }
 
@@ -46,75 +46,83 @@ class _PatientScreenState extends State<PatientScreen> {
       backgroundColor: bgColor,
       appBar: appBar(context),
       body: SafeArea(
-        child: StreamBuilder(
-            stream: FirebaseFirestore.instance.collection('rehabs').snapshots(),
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                return LoadingWidget();
-              } else {
-                var data = snapshot.data!.docs;
-                List isInRehab = [];
-                for (var res in data) {
-                  if (userData['rehabs'].contains(res.id)) {
-                    isInRehab.add(res.data());
-                  }
-                }
-                return Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                  child: GridView.builder(
-                    itemCount: isInRehab.length,
-                    itemBuilder: (context, index) {
-                      return ReductionWidget(
-                          isInRehab[index]['name'], false, false, false,
-                          () async {
-                        bool? isEnabled =
-                            await FlutterBluetoothSerial.instance.isEnabled;
-                        print(isEnabled);
-                        if (!isEnabled!) {
-                          showDialog(
-                              context: context,
-                              builder: (context) => ErrorMessage('Alert',
-                                  'You have to open Bluetooth first!'));
-                        } else {
-                          if (selectedDevice != null) {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => RehabDetail(
-                                        isInRehab[index]['name'],
-                                        isInRehab[index]['video'],
-                                        selectedDevice!)));
-                          } else {
-                            selectedDevice = await Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return SelectBondedDevicePage(
-                                      checkAvailability: false);
-                                },
-                              ),
-                            );
-                            if (selectedDevice != null) {
-                              Navigator.push(
-                                  context,
+        child: userData['rehabs']==null || userData['rehabs'].isEmpty
+            ? Center(
+                child: Text(
+                'There is no data yet',
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: lightColor),
+              ))
+            : StreamBuilder(
+                stream: FirebaseFirestore.instance
+                    .collection('rehabs')
+                    .where(FieldPath.documentId, whereIn: userData['rehabs'])
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return LoadingWidget();
+                  } else {
+                    var data = snapshot.data!.docs;
+                    return Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                      child: GridView.builder(
+                        itemCount: data.length,
+                        itemBuilder: (context, index) {
+                          return ReductionWidget(
+                              data[index]['name'], false, false, false,
+                              () async {
+                            bool? isEnabled =
+                                await FlutterBluetoothSerial.instance.isEnabled;
+                            print(isEnabled);
+                            if (!isEnabled!) {
+                              showDialog(
+                                  context: context,
+                                  builder: (context) => ErrorMessage('Alert',
+                                      'You have to open Bluetooth first!'));
+                            } else {
+                              if (selectedDevice != null) {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => RehabDetail(
+                                            data[index]['name'],
+                                            data[index]['video'],
+                                            selectedDevice!)));
+                              } else {
+                                selectedDevice =
+                                    await Navigator.of(context).push(
                                   MaterialPageRoute(
-                                      builder: (context) => RehabDetail(
-                                          isInRehab[index]['name'],
-                                          isInRehab[index]['video'],
-                                          selectedDevice!)));
+                                    builder: (context) {
+                                      return SelectBondedDevicePage(
+                                          checkAvailability: false);
+                                    },
+                                  ),
+                                );
+                                if (selectedDevice != null) {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => RehabDetail(
+                                              data[index]['name'],
+                                              data[index]['video'],
+                                              selectedDevice!)));
+                                }
+                              }
                             }
-                          }
-                        }
-                      }, () {}, () {});
-                    },
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 16,
-                      crossAxisSpacing: 16,
-                    ),
-                  ),
-                );
-              }
-            }),
+                          }, () {}, () {});
+                        },
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 16,
+                          crossAxisSpacing: 16,
+                        ),
+                      ),
+                    );
+                  }
+                }),
       ),
     );
   }
