@@ -3,26 +3,17 @@
 import 'package:flutter/material.dart';
 import 'package:ghada/utils/colors.dart';
 
-class PasswordFieldWidget extends StatefulWidget {
+class PasswordFieldWidget extends StatelessWidget {
   final TextEditingController controller;
   final String error;
   final String label;
-  PasswordFieldWidget(this.controller, this.label, this.error);
+  final bool obscureText;
+  final VoidCallback showHide;
+  PasswordFieldWidget(this.controller, this.label, this.error,this.obscureText,this.showHide);
 
-  @override
-  State<PasswordFieldWidget> createState() => _PasswordFieldWidgetState();
-}
-
-class _PasswordFieldWidgetState extends State<PasswordFieldWidget> {
   @override
   Widget build(BuildContext context) {
-    bool _obscureText = true;
-
-    void showHide() {
-      setState(() {
-        _obscureText = !_obscureText;
-      });
-    }
+    
 
     return Column(
       children: [
@@ -31,24 +22,24 @@ class _PasswordFieldWidgetState extends State<PasswordFieldWidget> {
           child: TextFormField(
               validator: (value) {
                 if (value!.isEmpty) {
-                  return "The ${widget.label} is required";
+                  return "The $label is required";
                 }
                 return null;
               },
               cursorColor: warmBlueColor,
-              obscureText: _obscureText,
-              controller: widget.controller,
+              obscureText: obscureText,
+              controller: controller,
               decoration: InputDecoration(
                 suffixIcon: InkWell(
                     onTap: showHide,
                     child: Icon(
-                      _obscureText ? Icons.visibility_off : Icons.visibility,
+                      obscureText ? Icons.visibility_off : Icons.visibility,
                       color: darkColor,
                     )),
                 fillColor: Colors.transparent,
                 filled: true,
                 border: InputBorder.none,
-                labelText: widget.label,
+                labelText: label,
                 labelStyle: TextStyle(color: darkColor, fontSize: 16),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
@@ -61,13 +52,13 @@ class _PasswordFieldWidgetState extends State<PasswordFieldWidget> {
               ),
               style: TextStyle(color: darkColor, fontSize: 16)),
         ),
-        widget.error != ""
+        error != ""
             ? Row(
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(left: 40, top: 5),
                     child: Text(
-                      widget.error,
+                      error,
                       style: TextStyle(
                         color: redColor,
                         fontSize: 12,

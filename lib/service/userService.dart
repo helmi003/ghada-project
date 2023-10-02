@@ -17,6 +17,8 @@ class UserService {
       "email": email,
       "gender": gender,
       "profilePic": photo,
+      "role":"patient",
+      "rehabs":[]
     });
   }
 

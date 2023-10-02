@@ -5,27 +5,82 @@ import 'package:ghada/utils/colors.dart';
 
 class ReductionWidget extends StatelessWidget {
   final String label;
+  final bool role;
+  final bool added;
+  final bool removed;
   final VoidCallback onTap;
-  ReductionWidget(this.label,this.onTap);
+  final VoidCallback addRehab;
+  final VoidCallback removeRehab;
+
+  ReductionWidget(this.label, this.role, this.added, this.removed, this.onTap,
+      this.addRehab, this.removeRehab);
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: 150,
-        height: 80,
-        child: Center(
-          child: Text(
-            textAlign: TextAlign.center,
-            label,
-            style: TextStyle(
-                fontSize: 20, fontWeight: FontWeight.bold, color: lightColor),
-          ),
-        ),
-        decoration: BoxDecoration(
-            color: warmBlueColor, borderRadius: BorderRadius.circular(20)),
-      ),
+    return Stack(
+      children: [
+        GestureDetector(
+            onTap: onTap,
+            child: Container(
+              width: 200,
+              height: 300,
+              child: Center(
+                child: Text(
+                  textAlign: TextAlign.center,
+                  label,
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: lightColor),
+                ),
+              ),
+              decoration: BoxDecoration(
+                  color: warmBlueColor,
+                  borderRadius: BorderRadius.circular(20)),
+            )),
+        role && removed
+            ? Positioned(
+                top: 5,
+                left: 5,
+                child: GestureDetector(
+                  onTap: removeRehab,
+                  child: Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                          border: Border.all(width: 3, color: redColor),
+                          color: warmBlueColor,
+                          borderRadius: BorderRadius.circular(20)),
+                      child: Icon(
+                        Icons.remove,
+                        color: redColor,
+                        size: 30,
+                      )),
+                ),
+              )
+            : SizedBox(),
+        role && added
+            ? Positioned(
+                top: 5,
+                right: 5,
+                child: GestureDetector(
+                  onTap: addRehab,
+                  child: Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                          border: Border.all(width: 3, color: greenColor),
+                          color: warmBlueColor,
+                          borderRadius: BorderRadius.circular(20)),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 9),
+                        child: Text('+',
+                            style: TextStyle(color: greenColor, fontSize: 30)),
+                      )),
+                ),
+              )
+            : SizedBox(),
+      ],
     );
   }
 }

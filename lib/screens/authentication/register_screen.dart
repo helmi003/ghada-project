@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, use_build_context_synchronously, prefer_const_literals_to_create_immutables
 
+import 'dart:convert';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -17,6 +18,7 @@ import 'package:ghada/widgets/passwordFieldWidget.dart';
 import 'package:ghada/widgets/textFieldWidget.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -45,6 +47,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   File? _photo;
   String photo = "";
   ImagePicker imagePicker = ImagePicker();
+  bool _obscureText = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -122,8 +126,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
               SizedBox(height: lastNameError != "" ? 5 : 20),
               TextFieldWidget(emailController, 'Email', emailError),
               SizedBox(height: emailError != "" ? 5 : 20),
-              PasswordFieldWidget(
-                  passwordController, 'Password', passwordError),
+              PasswordFieldWidget(passwordController, 'Password', passwordError,
+                  _obscureText, showHide),
               Padding(
                 padding: const EdgeInsets.only(left: 25, top: 20),
                 child: Row(
@@ -254,6 +258,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
+  void showHide() {
+    setState(() {
+      _obscureText = !_obscureText;
+    });
+  }
+
   register() async {
     try {
       if (nameController.text.isEmpty) {
@@ -309,8 +319,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         if (_photo != null) {
           final imgId = DateTime.now().millisecondsSinceEpoch.toString();
           Reference reference =
-              FirebaseStorage.instance.ref()
-              .child("profile/$uid/$imgId");
+              FirebaseStorage.instance.ref().child("profile/$uid/$imgId");
           await reference.putFile(_photo!);
           photo = await reference.getDownloadURL();
           FirebaseFirestore.instance
@@ -318,7 +327,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
               .doc(uid)
               .update({'profilePic': photo});
         }
-        Navigator.pushReplacementNamed(context, TabScreen.routeName);
+        DocumentSnapshot<Map<String, dynamic>> userSnapshot =
+            await FirebaseFirestore.instance
+                .collection('users')
+                .doc(uid)
+                .get();
+        if (userSnapshot.exists) {
+          final prefs = await SharedPreferences.getInstance();
+          Map<String, dynamic> userData = userSnapshot.data()!;
+          prefs.setString('user', json.encode(userData));
+          Navigator.pushReplacementNamed(
+            context,
+            TabScreen.routeName,
+            arguments: userData['role'],
+          );
+        } else {
+          showDialog(
+              context: context,
+              builder: (BuildContext buildContext) {
+                return ErrorMessage('Error', "This user can't be found");
+              });
+        }
         setState(() {
           isLoading = false;
         });

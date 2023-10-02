@@ -1,5 +1,6 @@
-// ignore_for_file: use_key_in_widget_constructors
+// ignore_for_file: use_key_in_widget_constructors, use_build_context_synchronously
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ghada/screens/Tab_screen.dart';
@@ -29,11 +30,6 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // _animation.addStatusListener((status) {
-    //   if (status == AnimationStatus.completed) {
-    //     Navigator.pushReplacementNamed(context, LoginScreen.routeName);
-    //   }
-    // });
     _controller.forward();
   }
 
@@ -62,7 +58,21 @@ class _SplashScreenState extends State<SplashScreen>
     Future.delayed(const Duration(seconds: 2), () async {
       try {
         if (isloggedin) {
-          Navigator.pushReplacementNamed(context, TabScreen.routeName);
+          DocumentSnapshot<Map<String, dynamic>> userSnapshot =
+              await FirebaseFirestore.instance
+                  .collection('users')
+                  .doc(user.uid)
+                  .get();
+          if (userSnapshot.exists) {
+            Map<String, dynamic> userData = userSnapshot.data()!;
+            Navigator.pushReplacementNamed(
+              context,
+              TabScreen.routeName,
+              arguments: userData['role'],
+            );
+          } else {
+            Navigator.pushReplacementNamed(context, LoginScreen.routeName);
+          }
         } else {
           Navigator.pushReplacementNamed(context, LoginScreen.routeName);
         }

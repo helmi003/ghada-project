@@ -1,5 +1,8 @@
 // ignore_for_file: prefer_const_constructors, use_build_context_synchronously
 
+import 'dart:convert';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
@@ -11,6 +14,7 @@ import 'package:ghada/widgets/buttonWidget.dart';
 import 'package:ghada/widgets/errorMessage.dart';
 import 'package:ghada/widgets/passwordFieldWidget.dart';
 import 'package:ghada/widgets/textFieldWidget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -22,12 +26,6 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool _obscureText = true;
-
-  void showHide() {
-    setState(() {
-      _obscureText = !_obscureText;
-    });
-  }
 
   bool isLoading = false;
   String errorMsg = "";
@@ -55,8 +53,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(height: 20),
                 TextFieldWidget(emailController, 'Email', emailError),
                 SizedBox(height: emailError != "" ? 5 : 20),
-                PasswordFieldWidget(
-                    passwordController, 'Password', passwordError),
+                PasswordFieldWidget(passwordController, 'Password',
+                    passwordError, _obscureText, showHide),
                 Expanded(child: SizedBox()),
                 ButtonWidget(login, 'Log In', isLoading),
                 SizedBox(height: 10),
@@ -97,6 +95,12 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  void showHide() {
+    setState(() {
+      _obscureText = !_obscureText;
+    });
+  }
+
   login() async {
     try {
       if (emailController.text.isEmpty) {
@@ -123,7 +127,27 @@ class _LoginScreenState extends State<LoginScreen> {
         setState(() {
           isLoading = false;
         });
-        Navigator.pushReplacementNamed(context, TabScreen.routeName);
+        DocumentSnapshot<Map<String, dynamic>> userSnapshot =
+            await FirebaseFirestore.instance
+                .collection('users')
+                .doc(auth.currentUser!.uid)
+                .get();
+        if (userSnapshot.exists) {
+          final prefs = await SharedPreferences.getInstance();
+          Map<String, dynamic> userData = userSnapshot.data()!;
+          prefs.setString('user', json.encode(userData));
+          Navigator.pushReplacementNamed(
+            context,
+            TabScreen.routeName,
+            arguments: userData['role'],
+          );
+        } else {
+          showDialog(
+              context: context,
+              builder: (BuildContext buildContext) {
+                return ErrorMessage('Error', "This user can't be found");
+              });
+        }
       }
     } catch (e) {
       setState(() {

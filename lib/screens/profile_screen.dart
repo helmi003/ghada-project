@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:ghada/screens/authentication/login_screen.dart';
 import 'package:ghada/utils/colors.dart';
 import 'package:ghada/widgets/buttonWidget.dart';
+import 'package:ghada/widgets/loadingWidget.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -25,11 +26,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         future: FirebaseFirestore.instance.collection("users").doc(uid).get(),
         builder: (context, snapshot) {
           if (snapshot.connectionState != ConnectionState.done) {
-            return Center(
-              child: CircularProgressIndicator(
-                color: lightColor,
-              ),
-            );
+            return LoadingWidget();
           } else {
             final user = snapshot.data!.data();
             return Center(
@@ -63,20 +60,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     if (loadingProgress == null) {
                                       return child;
                                     } else {
-                                      return Center(
-                                        child: CircularProgressIndicator(
-                                          color: lightColor,
-                                          value: loadingProgress
-                                                      .expectedTotalBytes !=
-                                                  null
-                                              ? loadingProgress
-                                                      .cumulativeBytesLoaded /
-                                                  (loadingProgress
-                                                          .expectedTotalBytes ??
-                                                      1)
-                                              : null,
-                                        ),
-                                      );
+                                      return LoadingWidget();
                                     }
                                   },
                                 )

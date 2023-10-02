@@ -4,7 +4,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:ghada/screens/Tab_screen.dart';
 import 'package:ghada/screens/authentication/register_screen.dart';
-import 'package:ghada/screens/home_screen.dart';
+import 'package:ghada/screens/doctor_screen.dart';
+import 'package:ghada/screens/patient_screen.dart';
 import 'package:ghada/screens/authentication/login_screen.dart';
 import 'package:ghada/screens/splash_screen.dart';
 
@@ -25,10 +26,19 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: SplashScreen(),
       routes: {
-        HomeScreen.routeName: (ctx) => HomeScreen(),
+        PatientScreen.routeName: (ctx) => PatientScreen(),
         LoginScreen.routeName: (ctx) => LoginScreen(),
         RegisterScreen.routeName: (ctx) => RegisterScreen(),
-        TabScreen.routeName: (ctx) => TabScreen(),
+      },
+      onGenerateRoute: (settings) {
+        if (settings.name == TabScreen.routeName) {
+          final args = settings.arguments as String;
+          return MaterialPageRoute(
+            builder: (context) {
+              return TabScreen(role: args);
+            },
+          );
+        }
       },
     );
   }
