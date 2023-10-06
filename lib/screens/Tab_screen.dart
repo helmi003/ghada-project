@@ -1,10 +1,12 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_key_in_widget_constructors, prefer_const_constructors_in_immutables
 import 'package:flutter/material.dart';
 import 'package:ghada/screens/doctor_screen.dart';
 import 'package:ghada/screens/patient_screen.dart';
 import 'package:ghada/screens/profile_screen.dart';
+import 'package:ghada/screens/settings_screen.dart';
 import 'package:ghada/utils/colors.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TabScreen extends StatefulWidget {
   static const routeName = "/TabScreen";
@@ -22,9 +24,9 @@ class _TabScreenState extends State<TabScreen> {
   void initState() {
     children = [
       widget.role == "patient" ? PatientScreen() : DoctorScreen(),
+      SettingsScreen(),
       ProfileScreen(),
     ];
-    print(widget.role);
     super.initState();
   }
 
@@ -34,7 +36,7 @@ class _TabScreenState extends State<TabScreen> {
       backgroundColor: bgColor,
       body: children[currentIndex],
       bottomNavigationBar: Container(
-        padding: EdgeInsets.symmetric(horizontal: 60, vertical: 10),
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         decoration: BoxDecoration(
           color: warmBlueColor,
           borderRadius: BorderRadius.only(
@@ -59,11 +61,15 @@ class _TabScreenState extends State<TabScreen> {
             tabs: [
               GButton(
                 icon: Icons.home,
-                text: 'Home',
+                text: AppLocalizations.of(context)!.home,
+              ),
+              GButton(
+                icon: Icons.settings,
+                text: AppLocalizations.of(context)!.home,
               ),
               GButton(
                 icon: Icons.person,
-                text: 'Profile',
+                text: AppLocalizations.of(context)!.profile,
               ),
             ]),
       ),

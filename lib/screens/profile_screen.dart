@@ -8,6 +8,7 @@ import 'package:ghada/utils/colors.dart';
 import 'package:ghada/widgets/buttonWidget.dart';
 import 'package:ghada/widgets/loadingWidget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -87,7 +88,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     prefs.remove('user');
                     Navigator.pushReplacementNamed(
                         context, LoginScreen.routeName);
-                  }, 'LogOut', false),
+                  }, AppLocalizations.of(context)!.logOut, false),
                 ],
               ),
             );

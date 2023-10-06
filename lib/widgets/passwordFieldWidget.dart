@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:ghada/utils/colors.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PasswordFieldWidget extends StatelessWidget {
   final TextEditingController controller;
@@ -22,7 +23,7 @@ class PasswordFieldWidget extends StatelessWidget {
           child: TextFormField(
               validator: (value) {
                 if (value!.isEmpty) {
-                  return "The $label is required";
+                  return "${AppLocalizations.of(context)!.the} $label ${AppLocalizations.of(context)!.isRequired}";
                 }
                 return null;
               },
@@ -56,7 +57,7 @@ class PasswordFieldWidget extends StatelessWidget {
             ? Row(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(left: 40, top: 5),
+                    padding: const EdgeInsets.only(left: 40, top: 5,right: 40),
                     child: Text(
                       error,
                       style: TextStyle(

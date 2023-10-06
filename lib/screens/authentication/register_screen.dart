@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -28,11 +29,11 @@ class RegisterScreen extends StatefulWidget {
   State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-enum SingingCharacter { homme, femme, enfant }
+enum SingingCharacter { male, female, teen }
 
 class _RegisterScreenState extends State<RegisterScreen> {
   FirebaseAuth auth = FirebaseAuth.instance;
-  SingingCharacter? character = SingingCharacter.homme;
+  SingingCharacter? character = SingingCharacter.male;
   bool isLoading = false;
   String errorMsg = "";
   TextEditingController emailController = TextEditingController();
@@ -120,19 +121,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ],
               ),
               SizedBox(height: 20),
-              TextFieldWidget(nameController, 'Name', firstNameError),
+              TextFieldWidget(nameController, AppLocalizations.of(context)!.name, firstNameError),
               SizedBox(height: firstNameError != "" ? 5 : 20),
-              TextFieldWidget(lastNameController, 'Last name', lastNameError),
+              TextFieldWidget(lastNameController, AppLocalizations.of(context)!.lastNname, lastNameError),
               SizedBox(height: lastNameError != "" ? 5 : 20),
-              TextFieldWidget(emailController, 'Email', emailError),
+              TextFieldWidget(emailController, AppLocalizations.of(context)!.email, emailError),
               SizedBox(height: emailError != "" ? 5 : 20),
-              PasswordFieldWidget(passwordController, 'Password', passwordError,
+              PasswordFieldWidget(passwordController, AppLocalizations.of(context)!.password, passwordError,
                   _obscureText, showHide),
               Padding(
-                padding: const EdgeInsets.only(left: 25, top: 20),
+                padding: const EdgeInsets.only(left: 25, top: 20,right: 25),
                 child: Row(
                   children: [
-                    Text('Choose a type:',
+                    Text(AppLocalizations.of(context)!.type,
                         style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
@@ -141,15 +142,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
               ),
               SelectRadioButton(),
-              ButtonWidget(register, 'Register', isLoading),
+              ButtonWidget(register, AppLocalizations.of(context)!.register, isLoading),
               SizedBox(height: 10),
               Center(
                 child: RichText(
                   text: TextSpan(
-                      text: 'Already have an account? ',
+                      text: AppLocalizations.of(context)!.haveAccount,
                       children: [
                         TextSpan(
-                          text: 'Log In',
+                          text: AppLocalizations.of(context)!.login,
                           style: TextStyle(
                               color: warmBlueColor,
                               fontWeight: FontWeight.bold),
@@ -198,7 +199,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               Radio<SingingCharacter>(
                 fillColor:
                     MaterialStateColor.resolveWith((states) => warmBlueColor),
-                value: SingingCharacter.homme,
+                value: SingingCharacter.male,
                 groupValue: character,
                 onChanged: (SingingCharacter? value) {
                   setState(() {
@@ -206,7 +207,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   });
                 },
               ),
-              Text('Homme',
+              Text(AppLocalizations.of(context)!.male,
                   style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
@@ -218,7 +219,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               Radio<SingingCharacter>(
                 fillColor:
                     MaterialStateColor.resolveWith((states) => warmBlueColor),
-                value: SingingCharacter.femme,
+                value: SingingCharacter.female,
                 groupValue: character,
                 onChanged: (SingingCharacter? value) {
                   setState(() {
@@ -226,7 +227,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   });
                 },
               ),
-              Text('Femme',
+              Text(AppLocalizations.of(context)!.female,
                   style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
@@ -238,7 +239,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               Radio<SingingCharacter>(
                 fillColor:
                     MaterialStateColor.resolveWith((states) => warmBlueColor),
-                value: SingingCharacter.enfant,
+                value: SingingCharacter.teen,
                 groupValue: character,
                 onChanged: (SingingCharacter? value) {
                   setState(() {
@@ -246,7 +247,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   });
                 },
               ),
-              Text('Enfant',
+              Text(AppLocalizations.of(context)!.teen,
                   style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
@@ -268,35 +269,35 @@ class _RegisterScreenState extends State<RegisterScreen> {
     try {
       if (nameController.text.isEmpty) {
         setState(() {
-          firstNameError = "This field is empty";
+          firstNameError = AppLocalizations.of(context)!.empty;
           lastNameError = "";
           emailError = "";
           passwordError = "";
         });
       } else if (lastNameController.text.isEmpty) {
         setState(() {
-          lastNameError = "This field is empty";
+          lastNameError = AppLocalizations.of(context)!.empty;
           firstNameError = "";
           emailError = "";
           passwordError = "";
         });
       } else if (emailController.text.isEmpty) {
         setState(() {
-          emailError = "This field is empty";
+          emailError = AppLocalizations.of(context)!.empty;
           firstNameError = "";
           lastNameError = "";
           passwordError = "";
         });
       } else if (!EmailValidator.validate(emailController.text)) {
         setState(() {
-          emailError = "This is an incorrect email";
+          emailError = AppLocalizations.of(context)!.incorrectEmail;
           firstNameError = "";
           lastNameError = "";
           passwordError = "";
         });
       } else if (passwordController.text.isEmpty) {
         setState(() {
-          passwordError = "This field is empty";
+          passwordError = AppLocalizations.of(context)!.empty;
           firstNameError = "";
           lastNameError = "";
           emailError = "";
@@ -345,7 +346,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           showDialog(
               context: context,
               builder: (BuildContext buildContext) {
-                return ErrorMessage('Error', "This user can't be found");
+                return ErrorMessage(AppLocalizations.of(context)!.error, AppLocalizations.of(context)!.userNotFound);
               });
         }
         setState(() {
@@ -360,7 +361,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           context: context,
           builder: (BuildContext buildContext) {
             return ErrorMessage(
-                'Error', "This email is already in use by another account!");
+                AppLocalizations.of(context)!.error, AppLocalizations.of(context)!.usedEmail);
           });
     }
   }

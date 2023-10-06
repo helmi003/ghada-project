@@ -3,27 +3,15 @@
 import 'package:flutter/material.dart';
 import 'package:ghada/utils/colors.dart';
 
-PreferredSizeWidget appBar(BuildContext context) {
+PreferredSizeWidget appBar(BuildContext context, String text) {
   return AppBar(
-      backgroundColor: lightColor,
-      title: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-           Image.asset(
-              'assets/images/laboratoire logo.jpeg',
-              height: 60,
-            ),
-          
-          Image.asset(
-            'assets/images/logo.png',
-            height: 50,
-          ),
-        ],
-      ),
+      backgroundColor: primaryColor,
+      title: Text(text),
+      centerTitle: true,
       shape: ContinuousRectangleBorder(
         borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(50),
-          bottomRight: Radius.circular(50),
+          bottomLeft: Radius.circular(20),
+          bottomRight: Radius.circular(20),
         ),
       ),
       elevation: 0);

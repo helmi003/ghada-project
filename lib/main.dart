@@ -1,18 +1,28 @@
-// ignore_for_file: prefer_const_constructors, equal_keys_in_map
+// ignore_for_file: prefer_const_constructors, equal_keys_in_map, prefer_const_literals_to_create_immutables
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:ghada/l10n/l10n.dart';
 import 'package:ghada/screens/Tab_screen.dart';
 import 'package:ghada/screens/authentication/register_screen.dart';
-import 'package:ghada/screens/doctor_screen.dart';
 import 'package:ghada/screens/patient_screen.dart';
 import 'package:ghada/screens/authentication/login_screen.dart';
 import 'package:ghada/screens/splash_screen.dart';
+import 'package:ghada/service/languageProvider.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(const MyApp());
+  final languageProvider = LanguageProvider();
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => languageProvider,
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -20,6 +30,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final selectedLocale = context.watch<LanguageProvider>().selectedLocale;
     return MaterialApp(
       title: 'Ghada project',
       theme: ThemeData(),
@@ -39,7 +50,16 @@ class MyApp extends StatelessWidget {
             },
           );
         }
+        return null;
       },
+      supportedLocales: L10n.all,
+      locale: selectedLocale,
+      localizationsDelegates: [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate
+      ],
     );
   }
 }

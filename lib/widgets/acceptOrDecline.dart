@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:ghada/utils/colors.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AcceptOrDecline extends StatelessWidget {
   final String title;
@@ -35,7 +36,7 @@ class AcceptOrDecline extends StatelessWidget {
               ),
               backgroundColor: MaterialStateProperty.all<Color>(primaryColor),
             ),
-            child: Text('Yes',
+            child: Text(AppLocalizations.of(context)!.yes,
                 style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w500,
@@ -52,7 +53,7 @@ class AcceptOrDecline extends StatelessWidget {
               ),
               backgroundColor: MaterialStateProperty.all<Color>(primaryColor),
             ),
-            child: Text('No',
+            child: Text(AppLocalizations.of(context)!.no,
                 style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w500,

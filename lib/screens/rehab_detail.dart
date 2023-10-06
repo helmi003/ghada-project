@@ -8,6 +8,7 @@ import 'package:ghada/utils/colors.dart';
 import 'package:ghada/widgets/backAppbar.dart';
 import 'package:ghada/widgets/loadingWidget.dart';
 import 'package:video_player/video_player.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class RehabDetail extends StatefulWidget {
   final String name;
@@ -29,7 +30,7 @@ class _RehabDetailState extends State<RehabDetail> {
   int counter = 0;
   Timer? timer;
   BluetoothConnection? connection;
-  String lastMessage = 'No messages yet!';
+  String lastMessage = '';
   String checkConnectivity = '';
 
   bool isConnecting = true;
@@ -38,6 +39,7 @@ class _RehabDetailState extends State<RehabDetail> {
   bool isDisconnecting = false;
   @override
   void initState() {
+    lastMessage = AppLocalizations.of(context)!.noMessages;
     try {
       controller = VideoPlayerController.asset('assets/videos/${widget.video}');
       _initializeVideoPlayerFuture = controller.initialize();
@@ -69,7 +71,7 @@ class _RehabDetailState extends State<RehabDetail> {
     super.initState();
     BluetoothConnection.toAddress(widget.server.address).then((_connection) {
       setState(() {
-        checkConnectivity = 'Connected to the device';
+        checkConnectivity = AppLocalizations.of(context)!.connected;
       });
       connection = _connection;
       setState(() {
@@ -80,11 +82,11 @@ class _RehabDetailState extends State<RehabDetail> {
       connection!.input!.listen(_onDataReceived).onDone(() {
         if (isDisconnecting) {
           setState(() {
-            checkConnectivity = 'Disconnecting locally!';
+            checkConnectivity = AppLocalizations.of(context)!.disconnectingLocally;
           });
         } else {
           setState(() {
-            checkConnectivity = 'Disconnected remotely!';
+            checkConnectivity = AppLocalizations.of(context)!.disconnectedRemotely;
           });
         }
         if (this.mounted) {
@@ -93,7 +95,7 @@ class _RehabDetailState extends State<RehabDetail> {
       });
     }).catchError((error) {
       setState(() {
-        checkConnectivity = 'Cannot connect, exception occured';
+        checkConnectivity = AppLocalizations.of(context)!.cannotConnect;
       });
       print(error);
     });

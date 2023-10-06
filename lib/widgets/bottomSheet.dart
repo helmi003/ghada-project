@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:ghada/utils/colors.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class BottomSheetCamera extends StatelessWidget {
   final VoidCallback onPressed;
@@ -11,12 +12,12 @@ class BottomSheetCamera extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 100,
+      height: 105,
       width: MediaQuery.of(context).size.width,
       margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
       child: Column(
         children: <Widget>[
-          Text("Choose your photo:",
+          Text(AppLocalizations.of(context)!.choosePhoto,
               style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -31,7 +32,7 @@ class BottomSheetCamera extends StatelessWidget {
                     Icons.camera_alt,
                     color: primaryColor,
                   ),
-                  label: Text("Camera",
+                  label: Text(AppLocalizations.of(context)!.camera,
                       style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
@@ -42,7 +43,7 @@ class BottomSheetCamera extends StatelessWidget {
                     Icons.image,
                     color: primaryColor,
                   ),
-                  label: Text("Gallery",
+                  label: Text(AppLocalizations.of(context)!.gallery,
                       style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,

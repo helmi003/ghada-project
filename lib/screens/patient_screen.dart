@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_build_context_synchronously, prefer_interpolation_to_compose_strings
 
 import 'dart:convert';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
@@ -44,12 +44,12 @@ class _PatientScreenState extends State<PatientScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: bgColor,
-      appBar: appBar(context),
+      appBar: appBar(context,AppLocalizations.of(context)!.homeScreen),
       body: SafeArea(
-        child: userData['rehabs']==null || userData['rehabs'].isEmpty
+        child: userData['rehabs'] == null || userData['rehabs'].isEmpty
             ? Center(
                 child: Text(
-                'There is no data yet',
+                AppLocalizations.of(context)!.noData,
                 style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -80,8 +80,8 @@ class _PatientScreenState extends State<PatientScreen> {
                             if (!isEnabled!) {
                               showDialog(
                                   context: context,
-                                  builder: (context) => ErrorMessage('Alert',
-                                      'You have to open Bluetooth first!'));
+                                  builder: (context) => ErrorMessage(AppLocalizations.of(context)!.alert,
+                                      AppLocalizations.of(context)!.openBluetooth));
                             } else {
                               if (selectedDevice != null) {
                                 Navigator.push(

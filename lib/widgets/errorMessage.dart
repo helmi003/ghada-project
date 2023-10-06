@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:ghada/utils/colors.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ErrorMessage extends StatelessWidget {
   final String title;
@@ -36,7 +37,7 @@ class ErrorMessage extends StatelessWidget {
               ),
               backgroundColor: MaterialStateProperty.all<Color>(primaryColor),
             ),
-            child: Text('OK',
+            child: Text(AppLocalizations.of(context)!.ok,
                 style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w500,

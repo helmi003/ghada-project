@@ -73,7 +73,7 @@ class ReductionWidget extends StatelessWidget {
                           color: warmBlueColor,
                           borderRadius: BorderRadius.circular(20)),
                       child: Padding(
-                        padding: const EdgeInsets.only(left: 9),
+                        padding: const EdgeInsets.only(left: 9,right: 9),
                         child: Text('+',
                             style: TextStyle(color: greenColor, fontSize: 30)),
                       )),

@@ -6,6 +6,7 @@ import 'package:ghada/screens/patientRehab_screen.dart';
 import 'package:ghada/utils/colors.dart';
 import 'package:ghada/widgets/appbar.dart';
 import 'package:ghada/widgets/loadingWidget.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DoctorScreen extends StatelessWidget {
   const DoctorScreen({super.key});
@@ -14,7 +15,7 @@ class DoctorScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: bgColor,
-        appBar: appBar(context),
+        appBar: appBar(context,AppLocalizations.of(context)!.homeScreen),
         body: FutureBuilder(
           future: FirebaseFirestore.instance
               .collection('users')
@@ -28,7 +29,7 @@ class DoctorScreen extends StatelessWidget {
               if (users.isEmpty) {
                 return Center(
                     child: Text(
-                  'There is no data yet',
+                  AppLocalizations.of(context)!.noData,
                   style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,

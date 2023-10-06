@@ -1,18 +1,14 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'dart:async';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:ghada/utils/colors.dart';
-
 import './BluetoothDeviceListEntry.dart';
 
 class SelectBondedDevicePage extends StatefulWidget {
-  /// If true, on page start there is performed discovery upon the bonded devices.
-  /// Then, if they are not avaliable, they would be disabled from the selection.
   final bool checkAvailability;
-
   const SelectBondedDevicePage({this.checkAvailability = true});
 
   @override
@@ -124,7 +120,7 @@ class _SelectBondedDevicePage extends State<SelectBondedDevicePage> {
       backgroundColor: bgColor,
       appBar: AppBar(
           backgroundColor: primaryColor,
-          title: Text('Select device'),
+          title: Text(AppLocalizations.of(context)!.selectDevice),
           actions: <Widget>[
             _isDiscovering
                 ? FittedBox(

@@ -7,6 +7,7 @@ import 'package:ghada/widgets/acceptOrDecline.dart';
 import 'package:ghada/widgets/backAppbar.dart';
 import 'package:ghada/widgets/loadingWidget.dart';
 import 'package:ghada/widgets/reductionWidget.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class patientRehabScreen extends StatefulWidget {
   Map<String, dynamic> patient;
@@ -23,7 +24,7 @@ class _patientRehabScreenState extends State<patientRehabScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: bgColor,
-        appBar: backAppBar(context, "Rehabs of ${widget.patient['name']}"),
+        appBar: backAppBar(context, "${AppLocalizations.of(context)!.rehabsOf} ${widget.patient['name']}"),
         body: StreamBuilder(
           stream: FirebaseFirestore.instance.collection('rehabs').snapshots(),
           builder: (context, snapshot) {
@@ -49,8 +50,8 @@ class _patientRehabScreenState extends State<patientRehabScreen> {
                               () {}, () async {
                             showDialog(
                               context: context,
-                              builder: (context) => AcceptOrDecline('Add',
-                                  "Do you realy want to add this rehab to ${widget.patient['name']}",
+                              builder: (context) => AcceptOrDecline(AppLocalizations.of(context)!.add,
+                                  "${AppLocalizations.of(context)!.rehabTo} ${widget.patient['name']}",
                                   () async {
                                 setState(() {
                                   isLoading = true;
@@ -69,8 +70,8 @@ class _patientRehabScreenState extends State<patientRehabScreen> {
                           }, () async {
                             showDialog(
                               context: context,
-                              builder: (context) => AcceptOrDecline('Remove',
-                                  "Do you realy want to remove this rehab from ${widget.patient['name']}",
+                              builder: (context) => AcceptOrDecline(AppLocalizations.of(context)!.remove,
+                                  "${AppLocalizations.of(context)!.removeRehabFrom} ${widget.patient['name']}",
                                   () async {
                                 setState(() {
                                   isLoading = true;

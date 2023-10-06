@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors, use_build_context_synchronously
 
 import 'dart:convert';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -51,20 +51,25 @@ class _LoginScreenState extends State<LoginScreen> {
                   width: 150,
                 ),
                 SizedBox(height: 20),
-                TextFieldWidget(emailController, 'Email', emailError),
+                TextFieldWidget(emailController,
+                    AppLocalizations.of(context)!.email, emailError),
                 SizedBox(height: emailError != "" ? 5 : 20),
-                PasswordFieldWidget(passwordController, 'Password',
-                    passwordError, _obscureText, showHide),
+                PasswordFieldWidget(
+                    passwordController,
+                    AppLocalizations.of(context)!.password,
+                    passwordError,
+                    _obscureText,
+                    showHide),
                 Expanded(child: SizedBox()),
-                ButtonWidget(login, 'Log In', isLoading),
+                ButtonWidget(login, AppLocalizations.of(context)!.login, isLoading),
                 SizedBox(height: 10),
                 Center(
                   child: RichText(
                     text: TextSpan(
-                        text: "You don't have an account? ",
+                        text: AppLocalizations.of(context)!.noAccount,
                         children: [
                           TextSpan(
-                            text: 'Register',
+                            text: AppLocalizations.of(context)!.register,
                             style: TextStyle(
                                 color: warmBlueColor,
                                 fontWeight: FontWeight.bold),
@@ -105,17 +110,17 @@ class _LoginScreenState extends State<LoginScreen> {
     try {
       if (emailController.text.isEmpty) {
         setState(() {
-          emailError = "This field is empty";
+          emailError = AppLocalizations.of(context)!.empty;
           passwordError = "";
         });
       } else if (!EmailValidator.validate(emailController.text)) {
         setState(() {
-          emailError = "This is an incorrect email";
+          emailError = AppLocalizations.of(context)!.incorrectEmail;
           passwordError = "";
         });
       } else if (passwordController.text.isEmpty) {
         setState(() {
-          passwordError = "This field is empty";
+          passwordError = AppLocalizations.of(context)!.empty;
           emailError = "";
         });
       } else {
@@ -145,7 +150,8 @@ class _LoginScreenState extends State<LoginScreen> {
           showDialog(
               context: context,
               builder: (BuildContext buildContext) {
-                return ErrorMessage('Error', "This user can't be found");
+                return ErrorMessage(AppLocalizations.of(context)!.error,
+                    AppLocalizations.of(context)!.userNotFound);
               });
         }
       }

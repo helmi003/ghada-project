@@ -2,18 +2,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:ghada/utils/colors.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class TextFieldWidget extends StatefulWidget {
+class TextFieldWidget extends StatelessWidget {
   final TextEditingController controller;
   final String error;
   final String label;
   TextFieldWidget(this.controller, this.label, this.error);
 
-  @override
-  State<TextFieldWidget> createState() => _TextFieldWidgetState();
-}
-
-class _TextFieldWidgetState extends State<TextFieldWidget> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -23,17 +19,17 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
           child: TextFormField(
               validator: (value) {
                 if (value!.isEmpty) {
-                  return "The ${widget.label} is required";
+                  return "${AppLocalizations.of(context)!.the} $label ${AppLocalizations.of(context)!.isRequired}";
                 }
                 return null;
               },
               cursorColor: warmBlueColor,
-              controller: widget.controller,
+              controller: controller,
               decoration: InputDecoration(
                 fillColor: Colors.transparent,
                 filled: true,
                 border: InputBorder.none,
-                labelText: widget.label,
+                labelText: label,
                 labelStyle: TextStyle(color: darkColor, fontSize: 16),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
@@ -46,13 +42,13 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
               ),
               style: TextStyle(color: darkColor, fontSize: 16)),
         ),
-        widget.error != ""
+        error != ""
             ? Row(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(left: 40, top: 5),
+                    padding: const EdgeInsets.only(left: 40, top: 5,right: 40),
                     child: Text(
-                      widget.error,
+                      error,
                       style: TextStyle(
                         color: redColor,
                         fontSize: 12,
