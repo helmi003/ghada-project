@@ -65,7 +65,7 @@ class _TabScreenState extends State<TabScreen> {
               ),
               GButton(
                 icon: Icons.settings,
-                text: AppLocalizations.of(context)!.home,
+                text: AppLocalizations.of(context)!.settings,
               ),
               GButton(
                 icon: Icons.person,
