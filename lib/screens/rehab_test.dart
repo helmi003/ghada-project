@@ -3,7 +3,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:ghada/utils/colors.dart';
-import 'package:ghada/widgets/backAppbar.dart';
 import 'package:ghada/widgets/loadingWidget.dart';
 import 'package:video_player/video_player.dart';
 
@@ -24,6 +23,7 @@ class _RehabTestState extends State<RehabTest> {
   late Future<void> _initializeVideoPlayerFuture;
   // StreamController<bool> loopController = StreamController<bool>();
   int counter = 0;
+  bool playingMessage = false;
   Timer? timer;
   List<String> messages = [];
   @override
@@ -82,7 +82,27 @@ class _RehabTestState extends State<RehabTest> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: bgColor,
-      appBar: backAppBar(context, widget.name),
+      appBar: AppBar(
+          backgroundColor: primaryColor,
+          centerTitle: true,
+          title: Text(widget.name),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.of(context).pop();
+              setState(() {
+                playingMessage = false;
+              });
+              _sendMessage('the video is stopped: ${widget.name}');
+            },
+          ),
+          shape: ContinuousRectangleBorder(
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(20),
+              bottomRight: Radius.circular(20),
+            ),
+          ),
+          elevation: 0),
       body: Column(
         children: [
           FutureBuilder(
@@ -129,10 +149,13 @@ class _RehabTestState extends State<RehabTest> {
                             setState(() {
                               if (controller.value.isPlaying) {
                                 controller.pause();
-                                _sendMessage('the video is stopped: ${widget.name}');
                               } else {
                                 controller.play();
-                                _sendMessage('the video is playing: ${widget.name}');
+                                if (!playingMessage) {
+                                  _sendMessage(
+                                      'The video is playing: ${widget.name}');
+                                  playingMessage = true;
+                                }
                               }
                             });
                           },
@@ -172,7 +195,6 @@ class _RehabTestState extends State<RehabTest> {
                               controller.seekTo(Duration.zero);
                               counter = 0;
                               controller.pause();
-                              _sendMessage('the video is relaunched: ${widget.name}');
                             });
                           },
                           child: Center(

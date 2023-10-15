@@ -6,7 +6,6 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:ghada/utils/colors.dart';
-import 'package:ghada/widgets/backAppbar.dart';
 import 'package:ghada/widgets/loadingWidget.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -28,6 +27,7 @@ class _RehabDetailState extends State<RehabDetail> {
   late VideoPlayerController controller;
   late Future<void> _initializeVideoPlayerFuture;
   int counter = 0;
+  bool playingMessage = false;
   Timer? timer;
   BluetoothConnection? connection;
   List<String> messages = [];
@@ -43,7 +43,7 @@ class _RehabDetailState extends State<RehabDetail> {
     try {
       controller = VideoPlayerController.asset('assets/videos/${widget.video}');
       _initializeVideoPlayerFuture = controller.initialize();
-      controller.setLooping(false);
+      controller.setLooping(true);
       controller.setVolume(0);
       timer = Timer.periodic(Duration(seconds: 1), (timer) {
         if (controller.value.isPlaying) {
@@ -107,7 +107,27 @@ class _RehabDetailState extends State<RehabDetail> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: bgColor,
-      appBar: backAppBar(context, widget.name),
+      appBar: AppBar(
+          backgroundColor: primaryColor,
+          centerTitle: true,
+          title: Text(widget.name),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.of(context).pop();
+              setState(() {
+                playingMessage = false;
+              });
+              _sendMessage('the video is stopped: ${widget.name}');
+            },
+          ),
+          shape: ContinuousRectangleBorder(
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(20),
+              bottomRight: Radius.circular(20),
+            ),
+          ),
+          elevation: 0),
       body: Column(
         children: [
           FutureBuilder(
@@ -154,10 +174,13 @@ class _RehabDetailState extends State<RehabDetail> {
                             setState(() {
                               if (controller.value.isPlaying) {
                                 controller.pause();
-                                _sendMessage('the video is stopped: ${widget.name}');
                               } else {
                                 controller.play();
-                                _sendMessage('the video is playing: ${widget.name}');
+                                if (!playingMessage) {
+                                  _sendMessage(
+                                      'the video is playing: ${widget.name}');
+                                  playingMessage = true;
+                                }
                               }
                             });
                           },
@@ -197,7 +220,6 @@ class _RehabDetailState extends State<RehabDetail> {
                               controller.seekTo(Duration.zero);
                               counter = 0;
                               controller.pause();
-                              _sendMessage('the video is relaunched: ${widget.name}');
                             });
                           },
                           child: Center(

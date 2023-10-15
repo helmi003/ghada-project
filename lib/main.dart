@@ -36,8 +36,8 @@ class MyApp extends StatelessWidget {
       title: 'Ghada project',
       theme: ThemeData(),
       debugShowCheckedModeBanner: false,
-      home: SplashScreen(),
-      // home: RehabTest('test','moving_hand1.mp4'),
+      // home: SplashScreen(),
+      home: RehabTest('test','moving_hand1.mp4'),
       routes: {
         PatientScreen.routeName: (ctx) => PatientScreen(),
         LoginScreen.routeName: (ctx) => LoginScreen(),
