@@ -1,49 +1,61 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_key_in_widget_constructors, prefer_const_constructors_in_immutables, prefer_const_declarations, no_leading_underscores_for_local_identifiers, unnecessary_this
 
 import 'dart:async';
-import 'dart:convert';
-import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:ghada/utils/colors.dart';
 import 'package:ghada/widgets/backAppbar.dart';
 import 'package:ghada/widgets/loadingWidget.dart';
 import 'package:video_player/video_player.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class RehabDetail extends StatefulWidget {
+class RehabTest extends StatefulWidget {
   final String name;
-  final BluetoothDevice server;
   final String video;
 
-  RehabDetail(this.name, this.video, this.server);
+  RehabTest(this.name, this.video);
 
-  static const routeName = "/RehabDetail";
+  static const routeName = "/RehabTest";
 
   @override
-  State<RehabDetail> createState() => _RehabDetailState();
+  State<RehabTest> createState() => _RehabTestState();
 }
 
-class _RehabDetailState extends State<RehabDetail> {
+class _RehabTestState extends State<RehabTest> {
   late VideoPlayerController controller;
   late Future<void> _initializeVideoPlayerFuture;
+  // StreamController<bool> loopController = StreamController<bool>();
   int counter = 0;
   Timer? timer;
-  BluetoothConnection? connection;
   List<String> messages = [];
-  String checkConnectivity = '';
-
-  bool isConnecting = true;
-  bool get isConnected => (connection?.isConnected ?? false);
-
-  bool isDisconnecting = false;
   @override
   void initState() {
-    messages.add('No messages yet!');
+    messages.add('Test');
+    messages.add('Test');
+    messages.add('Test');
+    messages.add('Test');
+    messages.add('Test');
+    messages.add('Test');
+    messages.add('Test');
+    messages.add('Test');
+    messages.add('Test');
+    messages.add('Test');
+    messages.add('Test');
     try {
       controller = VideoPlayerController.asset('assets/videos/${widget.video}');
       _initializeVideoPlayerFuture = controller.initialize();
-      controller.setLooping(false);
+      controller.setLooping(true);
+      controller.setPlaybackSpeed(1.0);
+      // controller.addListener(() {
+      //   if (controller.value.position == controller.value.duration) {
+      //     loopController.add(true);
+      //   }
+      // });
+      // loopController.stream.listen((isLooping) {
+      //   if (isLooping) {
+      //     setState(() {
+      //       counter = 0;
+      //     });
+      //   }
+      // });
       controller.setVolume(0);
       timer = Timer.periodic(Duration(seconds: 1), (timer) {
         if (controller.value.isPlaying) {
@@ -56,50 +68,13 @@ class _RehabDetailState extends State<RehabDetail> {
       print('Error initializing video player: $e');
     }
     super.initState();
-    BluetoothConnection.toAddress(widget.server.address).then((_connection) {
-      setState(() {
-        checkConnectivity = AppLocalizations.of(context)!.connected;
-      });
-      connection = _connection;
-      setState(() {
-        isConnecting = false;
-        isDisconnecting = false;
-      });
-
-      connection!.input!.listen(_onDataReceived).onDone(() {
-        if (isDisconnecting) {
-          setState(() {
-            checkConnectivity =
-                AppLocalizations.of(context)!.disconnectingLocally;
-          });
-        } else {
-          setState(() {
-            checkConnectivity =
-                AppLocalizations.of(context)!.disconnectedRemotely;
-          });
-        }
-        if (this.mounted) {
-          setState(() {});
-        }
-      });
-    }).catchError((error) {
-      setState(() {
-        checkConnectivity = AppLocalizations.of(context)!.cannotConnect;
-      });
-      print(error);
-    });
   }
 
   @override
   void dispose() {
     timer?.cancel();
+    // loopController.close();
     controller.dispose();
-    if (isConnected) {
-      isDisconnecting = true;
-      connection?.dispose();
-      connection = null;
-    }
-
     super.dispose();
   }
 
@@ -214,7 +189,7 @@ class _RehabDetailState extends State<RehabDetail> {
                 ]),
           ),
           Text(
-            checkConnectivity,
+            'Not connected',
             style: TextStyle(
                 color: lightColor, fontSize: 20, fontWeight: FontWeight.w600),
           ),
@@ -267,20 +242,18 @@ class _RehabDetailState extends State<RehabDetail> {
     return '$minutes:${remainingSeconds.toString().padLeft(2, '0')}';
   }
 
-  void _onDataReceived(Uint8List data) {
-    String dataString = String.fromCharCodes(data);
-    setState(() {
-      messages.add(dataString);
-    });
-  }
-
   void _sendMessage(String text) async {
     try {
-      Uint8List data = Uint8List.fromList(utf8.encode("$text\r\n"));
-      connection!.output.add(data);
-      await connection!.output.allSent;
+      print(text);
     } catch (e) {
       setState(() {});
     }
   }
+
+  // void _onDataReceived(Uint8List data) {
+  //   String dataString = String.fromCharCodes(data);
+  //   setState(() {
+  //     lastMessage = dataString;
+  //   });
+  // }
 }

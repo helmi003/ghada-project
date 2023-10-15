@@ -9,6 +9,7 @@ import 'package:ghada/screens/Tab_screen.dart';
 import 'package:ghada/screens/authentication/register_screen.dart';
 import 'package:ghada/screens/patient_screen.dart';
 import 'package:ghada/screens/authentication/login_screen.dart';
+import 'package:ghada/screens/rehab_test.dart';
 import 'package:ghada/screens/splash_screen.dart';
 import 'package:ghada/service/languageProvider.dart';
 import 'package:provider/provider.dart';
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(),
       debugShowCheckedModeBanner: false,
       home: SplashScreen(),
+      // home: RehabTest('test','moving_hand1.mp4'),
       routes: {
         PatientScreen.routeName: (ctx) => PatientScreen(),
         LoginScreen.routeName: (ctx) => LoginScreen(),
