@@ -14,8 +14,9 @@ class RehabDetail extends StatefulWidget {
   final String name;
   final BluetoothDevice server;
   final String video;
+  final int indx;
 
-  RehabDetail(this.name, this.video, this.server);
+  RehabDetail(this.name, this.video, this.indx, this.server);
 
   static const routeName = "/RehabDetail";
 
@@ -108,7 +109,7 @@ class _RehabDetailState extends State<RehabDetail> {
     return Scaffold(
       backgroundColor: bgColor,
       appBar: AppBar(
-          backgroundColor: primaryColor,
+          backgroundColor: warmBlueColor,
           centerTitle: true,
           title: Text(widget.name),
           leading: IconButton(
@@ -118,7 +119,7 @@ class _RehabDetailState extends State<RehabDetail> {
               setState(() {
                 playingMessage = false;
               });
-              _sendMessage('the video is stopped: ${widget.name}');
+              _sendMessage('stopRehabilitaion${widget.indx+1}');
             },
           ),
           shape: ContinuousRectangleBorder(
@@ -178,7 +179,7 @@ class _RehabDetailState extends State<RehabDetail> {
                                 controller.play();
                                 if (!playingMessage) {
                                   _sendMessage(
-                                      'the video is playing: ${widget.name}');
+                                      'playRehabilitaion${widget.indx+1}');
                                   playingMessage = true;
                                 }
                               }
@@ -202,7 +203,7 @@ class _RehabDetailState extends State<RehabDetail> {
                     style: TextStyle(
                         fontSize: 50,
                         fontWeight: FontWeight.bold,
-                        color: lightColor),
+                        color: warmBlueColor),
                   ),
                   Container(
                     width: 50,
@@ -238,7 +239,7 @@ class _RehabDetailState extends State<RehabDetail> {
           Text(
             checkConnectivity,
             style: TextStyle(
-                color: lightColor, fontSize: 20, fontWeight: FontWeight.w600),
+                color: warmBlueColor, fontSize: 20, fontWeight: FontWeight.w600),
           ),
           SizedBox(
             height: 10,
@@ -247,7 +248,7 @@ class _RehabDetailState extends State<RehabDetail> {
             child: Container(
               padding: EdgeInsets.all(15),
               decoration: BoxDecoration(
-                border: Border.all(width: 4, color: lightColor),
+                border: Border.all(width: 4, color: primaryColor),
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(40),
                   topRight: Radius.circular(40),

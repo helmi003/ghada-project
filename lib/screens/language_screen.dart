@@ -22,7 +22,6 @@ class _LanguagesScreenState extends State<LanguagesScreen> {
   SharedPreferences? prefs;
   getLangauges() async {
     prefs = await SharedPreferences.getInstance();
-    // loc = Locale(prefs!.getString('language').toString());
   }
 
   @override
@@ -39,10 +38,8 @@ class _LanguagesScreenState extends State<LanguagesScreen> {
         : loc == Locale('fr')
             ? SingingCharacter.french
             : SingingCharacter.arabic;
-    print(lang);
-    print(loc);
     return Scaffold(
-      backgroundColor: bgColor,
+      backgroundColor: lightColor,
       appBar:
           backAppBar(context, AppLocalizations.of(context)!.preferedLanguage),
       body: Padding(
@@ -52,8 +49,8 @@ class _LanguagesScreenState extends State<LanguagesScreen> {
           children: [
             Card(
               color: loc == Locale('en')
-                  ? silverColor.withOpacity(0.8)
-                  : silverColor.withOpacity(0.1),
+                  ? primaryColor
+                  : silverColor.withOpacity(0.5),
               child: ListTile(
                 leading: Image.asset(
                   'assets/images/english.png',
@@ -83,8 +80,8 @@ class _LanguagesScreenState extends State<LanguagesScreen> {
             ),
             Card(
               color: loc == Locale('fr')
-                  ? silverColor.withOpacity(0.8)
-                  : silverColor.withOpacity(0.1),
+                  ? primaryColor
+                  : silverColor.withOpacity(0.5),
               child: ListTile(
                 leading: Image.asset(
                   'assets/images/french.png',
@@ -117,8 +114,8 @@ class _LanguagesScreenState extends State<LanguagesScreen> {
             ),
             Card(
               color: loc == Locale('ar')
-                  ? silverColor.withOpacity(0.8)
-                  : silverColor.withOpacity(0.1),
+                  ? primaryColor
+                  : silverColor.withOpacity(0.5),
               child: ListTile(
                   leading: Image.asset(
                     'assets/images/arabic.png',

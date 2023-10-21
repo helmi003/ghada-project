@@ -21,7 +21,7 @@ class BottomSheetCamera extends StatelessWidget {
               style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: darkColor)),
+                  color: lightColor)),
           SizedBox(height: 20),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -36,7 +36,7 @@ class BottomSheetCamera extends StatelessWidget {
                       style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
-                          color: darkColor))),
+                          color: lightColor))),
               TextButton.icon(
                   onPressed: onPressed2,
                   icon: Icon(
@@ -47,7 +47,7 @@ class BottomSheetCamera extends StatelessWidget {
                       style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
-                          color: darkColor))),
+                          color: lightColor))),
             ],
           )
         ],

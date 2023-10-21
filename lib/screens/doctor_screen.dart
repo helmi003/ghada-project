@@ -2,7 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:ghada/screens/patientRehab_screen.dart';
+import 'package:ghada/screens/addOrRemoveRehabs_screen.dart';
 import 'package:ghada/utils/colors.dart';
 import 'package:ghada/widgets/appbar.dart';
 import 'package:ghada/widgets/loadingWidget.dart';
@@ -14,7 +14,7 @@ class DoctorScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: bgColor,
+        backgroundColor: lightColor,
         appBar: appBar(context,AppLocalizations.of(context)!.homeScreen),
         body: FutureBuilder(
           future: FirebaseFirestore.instance
@@ -41,7 +41,7 @@ class DoctorScreen extends StatelessWidget {
                   itemBuilder: (context, index) => Padding(
                         padding: EdgeInsets.symmetric(horizontal: 10),
                         child: Card(
-                          color: silverColor.withOpacity(0.3),
+                          color: silverColor.withOpacity(0.8),
                           child: ListTile(
                             leading: ClipRRect(
                               borderRadius: BorderRadius.circular(25),
@@ -76,13 +76,13 @@ class DoctorScreen extends StatelessWidget {
                             trailing: Icon(
                               Icons.keyboard_arrow_right,
                               size: 50,
-                              color: darkColor,
+                              color: lightColor,
                             ),
                             onTap: () {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => patientRehabScreen(
+                                      builder: (context) => addOrRemoveRehabs(
                                           users[index].data() as Map<String, dynamic>,users[index].id)));
                             },
                           ),

@@ -13,7 +13,7 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: bgColor,
+      backgroundColor: lightColor,
       appBar: appBar(context, AppLocalizations.of(context)!.settings),
       body: Column(children: [
         Padding(
@@ -28,16 +28,14 @@ class SettingsScreen extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: Image.asset(
-                'assets/images/laboratoire logo.jpeg',
-                width: 100,
-              ),
-            ),
             Image.asset(
-              'assets/images/logo.png',
-              width: 60,
+              'assets/images/laboratoire logo.jpeg',
+              width: 100,
+            ),
+            Text('X',style: TextStyle(color: darkColor,fontSize: 50,fontWeight: FontWeight.bold),),
+            Image.asset(
+              'assets/images/logo-name.png',
+              width: 90,
             ),
           ],
         ),

@@ -117,9 +117,9 @@ class _SelectBondedDevicePage extends State<SelectBondedDevicePage> {
             ))
         .toList();
     return Scaffold(
-      backgroundColor: bgColor,
+      backgroundColor: lightColor,
       appBar: AppBar(
-          backgroundColor: primaryColor,
+          backgroundColor: warmBlueColor,
           title: Text(AppLocalizations.of(context)!.selectDevice),
           actions: <Widget>[
             _isDiscovering
@@ -127,7 +127,7 @@ class _SelectBondedDevicePage extends State<SelectBondedDevicePage> {
                     child: Container(
                       margin: EdgeInsets.all(16),
                       child: CircularProgressIndicator(
-                        color: lightColor,
+                        color: warmBlueColor,
                       ),
                     ),
                   )

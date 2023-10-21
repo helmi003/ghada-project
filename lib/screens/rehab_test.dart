@@ -81,9 +81,9 @@ class _RehabTestState extends State<RehabTest> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: bgColor,
+      backgroundColor: lightColor,
       appBar: AppBar(
-          backgroundColor: primaryColor,
+          backgroundColor: warmBlueColor,
           centerTitle: true,
           title: Text(widget.name),
           leading: IconButton(
@@ -177,7 +177,7 @@ class _RehabTestState extends State<RehabTest> {
                     style: TextStyle(
                         fontSize: 50,
                         fontWeight: FontWeight.bold,
-                        color: lightColor),
+                        color: warmBlueColor),
                   ),
                   Container(
                     width: 50,
@@ -213,7 +213,7 @@ class _RehabTestState extends State<RehabTest> {
           Text(
             'Not connected',
             style: TextStyle(
-                color: lightColor, fontSize: 20, fontWeight: FontWeight.w600),
+                color: warmBlueColor, fontSize: 20, fontWeight: FontWeight.w600),
           ),
           SizedBox(
             height: 10,
@@ -222,7 +222,7 @@ class _RehabTestState extends State<RehabTest> {
             child: Container(
               padding: EdgeInsets.all(15),
               decoration: BoxDecoration(
-                border: Border.all(width: 4, color: lightColor),
+                border: Border.all(width: 4, color: primaryColor),
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(40),
                   topRight: Radius.circular(40),

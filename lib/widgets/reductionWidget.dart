@@ -35,7 +35,7 @@ class ReductionWidget extends StatelessWidget {
                 ),
               ),
               decoration: BoxDecoration(
-                  color: warmBlueColor,
+                  color: primaryColor,
                   borderRadius: BorderRadius.circular(20)),
             )),
         role && removed
@@ -49,7 +49,7 @@ class ReductionWidget extends StatelessWidget {
                       height: 40,
                       decoration: BoxDecoration(
                           border: Border.all(width: 3, color: redColor),
-                          color: warmBlueColor,
+                          color: primaryColor,
                           borderRadius: BorderRadius.circular(20)),
                       child: Icon(
                         Icons.remove,
@@ -70,7 +70,7 @@ class ReductionWidget extends StatelessWidget {
                       height: 40,
                       decoration: BoxDecoration(
                           border: Border.all(width: 3, color: greenColor),
-                          color: warmBlueColor,
+                          color: primaryColor,
                           borderRadius: BorderRadius.circular(20)),
                       child: Padding(
                         padding: const EdgeInsets.only(left: 9,right: 9),

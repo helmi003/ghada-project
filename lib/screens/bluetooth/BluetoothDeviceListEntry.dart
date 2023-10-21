@@ -4,48 +4,65 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:ghada/utils/colors.dart';
 
-class BluetoothDeviceListEntry extends ListTile {
-  BluetoothDeviceListEntry({
-    required BluetoothDevice device,
-    int? rssi,
-    GestureTapCallback? onTap,
-    GestureLongPressCallback? onLongPress,
-    bool enabled = true,
-  }) : super(
-          onTap: onTap,
-          onLongPress: onLongPress,
-          enabled: enabled,
-          leading:
-              Icon(Icons.devices,color: lightColor),
-          title: Text(device.name ?? "",style: TextStyle(color: lightColor),),
-          subtitle: Text(device.address.toString(),style: TextStyle(color: lightColor)),
-          trailing: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              rssi != null
-                  ? Container(
-                      margin: EdgeInsets.all(8.0),
-                      child: DefaultTextStyle(
-                        style: _computeTextStyle(rssi),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            Text(rssi.toString(),style: TextStyle(color: lightColor)),
-                            Text('dBm',style: TextStyle(color: lightColor)),
-                          ],
-                        ),
+class BluetoothDeviceListEntry extends StatelessWidget {
+  final BluetoothDevice device;
+  final int? rssi;
+  final GestureTapCallback? onTap;
+  final GestureLongPressCallback? onLongPress;
+  final bool enabled;
+  const BluetoothDeviceListEntry({
+    required this.device,
+    this.rssi,
+    this.onTap,
+    this.onLongPress,
+    this.enabled = true,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      color: primaryColor,
+      child: ListTile(
+        onTap: onTap,
+        onLongPress: onLongPress,
+        enabled: enabled,
+        leading: Icon(Icons.devices, color: warmBlueColor),
+        title: Text(
+          device.name ?? "",
+          style: TextStyle(color: warmBlueColor),
+        ),
+        subtitle: Text(device.address.toString(),
+            style: TextStyle(color: warmBlueColor)),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            rssi != null
+                ? Container(
+                    margin: EdgeInsets.all(8.0),
+                    child: DefaultTextStyle(
+                      style: _computeTextStyle(rssi!),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Text(rssi.toString(),
+                              style: TextStyle(color: warmBlueColor)),
+                          Text('dBm', style: TextStyle(color: warmBlueColor)),
+                        ],
                       ),
-                    )
-                  : Container(width: 0, height: 0),
-              device.isConnected
-                  ? Icon(Icons.import_export,color: lightColor)
-                  : Container(width: 0, height: 0),
-              device.isBonded
-                  ? Icon(Icons.link,color: lightColor)
-                  : Container(width: 0, height: 0),
-            ],
-          ),
-        );
+                    ),
+                  )
+                : Container(width: 0, height: 0),
+            device.isConnected
+                ? Icon(Icons.import_export, color: warmBlueColor)
+                : Container(width: 0, height: 0),
+            device.isBonded
+                ? Icon(Icons.link, color: warmBlueColor)
+                : Container(width: 0, height: 0),
+          ],
+        ),
+      ),
+    );
+  }
 
   static TextStyle _computeTextStyle(int rssi) {
     /**/ if (rssi >= -35)

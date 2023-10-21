@@ -23,7 +23,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: bgColor,
+      backgroundColor: lightColor,
       body: FutureBuilder(
         future: FirebaseFirestore.instance.collection("users").doc(uid).get(),
         builder: (context, snapshot) {
@@ -78,7 +78,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   SizedBox(height: 20),
                   Text(
                     "${user['name']} ${user['lastName']}",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20,color: warmBlueColor),
                   ),
                   SizedBox(height: 20),
                   ButtonWidget(() async {

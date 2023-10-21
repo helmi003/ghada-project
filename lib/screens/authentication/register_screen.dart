@@ -53,7 +53,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: bgColor,
+      backgroundColor: lightColor,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -69,7 +69,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 topRight: Radius.circular(16),
                                 topLeft: Radius.circular(16)),
                           ),
-                          backgroundColor: lightColor,
+                          backgroundColor: warmBlueColor,
                           context: context,
                           builder: ((builder) => BottomSheetCamera(() {
                                 takephoto(
@@ -152,7 +152,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         TextSpan(
                           text: AppLocalizations.of(context)!.login,
                           style: TextStyle(
-                              color: warmBlueColor,
+                              color: redColor,
                               fontWeight: FontWeight.bold),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
@@ -165,7 +165,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ],
                       style: TextStyle(
                         fontSize: 16,
-                        color: lightColor,
+                        color: warmBlueColor,
                       )),
                 ),
               ),

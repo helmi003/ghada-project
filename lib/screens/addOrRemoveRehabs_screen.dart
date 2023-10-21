@@ -9,21 +9,21 @@ import 'package:ghada/widgets/loadingWidget.dart';
 import 'package:ghada/widgets/reductionWidget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class patientRehabScreen extends StatefulWidget {
+class addOrRemoveRehabs extends StatefulWidget {
   Map<String, dynamic> patient;
   String patientId;
-  patientRehabScreen(this.patient, this.patientId);
+  addOrRemoveRehabs(this.patient, this.patientId);
 
   @override
-  State<patientRehabScreen> createState() => _patientRehabScreenState();
+  State<addOrRemoveRehabs> createState() => _addOrRemoveRehabsState();
 }
 
-class _patientRehabScreenState extends State<patientRehabScreen> {
+class _addOrRemoveRehabsState extends State<addOrRemoveRehabs> {
   bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: bgColor,
+        backgroundColor: lightColor,
         appBar: backAppBar(context, "${AppLocalizations.of(context)!.rehabsOf} ${widget.patient['name']}"),
         body: StreamBuilder(
           stream: FirebaseFirestore.instance.collection('rehabs').snapshots(),

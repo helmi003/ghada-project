@@ -33,11 +33,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final selectedLocale = context.watch<LanguageProvider>().selectedLocale;
     return MaterialApp(
-      title: 'Ghada project',
+      title: 'Hand rehab',
       theme: ThemeData(),
       debugShowCheckedModeBanner: false,
-      // home: SplashScreen(),
-      home: RehabTest('test','moving_hand1.mp4'),
+      home: SplashScreen(),
+      // home: RehabTest('Hand rehab','moving_hand1.mp4'),
       routes: {
         PatientScreen.routeName: (ctx) => PatientScreen(),
         LoginScreen.routeName: (ctx) => LoginScreen(),

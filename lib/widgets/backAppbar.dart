@@ -5,7 +5,7 @@ import 'package:ghada/utils/colors.dart';
 
 PreferredSizeWidget backAppBar(BuildContext context,String name) {
   return AppBar(
-          backgroundColor: primaryColor,
+          backgroundColor: warmBlueColor,
           centerTitle: true,
           title: Text(name),
           leading: IconButton(

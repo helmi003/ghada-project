@@ -30,17 +30,17 @@ class TextFieldWidget extends StatelessWidget {
                 filled: true,
                 border: InputBorder.none,
                 labelText: label,
-                labelStyle: TextStyle(color: darkColor, fontSize: 16),
+                labelStyle: TextStyle(color: warmBlueColor, fontSize: 16),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
-                  borderSide: BorderSide(color: lightColor, width: 2),
+                  borderSide: BorderSide(color: darkColor, width: 2),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
-                  borderSide: BorderSide(color: lightColor, width: 2),
+                  borderSide: BorderSide(color: darkColor, width: 2),
                 ),
               ),
-              style: TextStyle(color: darkColor, fontSize: 16)),
+              style: TextStyle(color: warmBlueColor, fontSize: 16)),
         ),
         error != ""
             ? Row(

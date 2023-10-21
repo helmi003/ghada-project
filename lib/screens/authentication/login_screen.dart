@@ -37,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: bgColor,
+      backgroundColor: lightColor,
       body: SafeArea(
         child: SingleChildScrollView(
           child: SizedBox(
@@ -47,8 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(height: 20),
                 Image.asset(
                   'assets/images/logo-name.png',
-                  height: 175,
-                  width: 150,
+                  width: 200,
                 ),
                 SizedBox(height: 20),
                 TextFieldWidget(emailController,
@@ -71,7 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           TextSpan(
                             text: AppLocalizations.of(context)!.register,
                             style: TextStyle(
-                                color: warmBlueColor,
+                                color: redColor,
                                 fontWeight: FontWeight.bold),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
@@ -85,7 +84,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ],
                         style: TextStyle(
                           fontSize: 16,
-                          color: lightColor,
+                          color: warmBlueColor,
                         )),
                   ),
                 ),

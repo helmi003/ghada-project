@@ -33,7 +33,7 @@ class _TabScreenState extends State<TabScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: bgColor,
+      backgroundColor: lightColor,
       body: children[currentIndex],
       bottomNavigationBar: Container(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),

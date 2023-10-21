@@ -5,7 +5,7 @@ import 'package:ghada/utils/colors.dart';
 
 PreferredSizeWidget appBar(BuildContext context, String text) {
   return AppBar(
-      backgroundColor: primaryColor,
+      backgroundColor: warmBlueColor,
       title: Text(text),
       centerTitle: true,
       shape: ContinuousRectangleBorder(

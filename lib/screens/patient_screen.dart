@@ -43,7 +43,7 @@ class _PatientScreenState extends State<PatientScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: bgColor,
+      backgroundColor: lightColor,
       appBar: appBar(context,AppLocalizations.of(context)!.homeScreen),
       body: SafeArea(
         child: userData['rehabs'] == null || userData['rehabs'].isEmpty
@@ -90,6 +90,7 @@ class _PatientScreenState extends State<PatientScreen> {
                                         builder: (context) => RehabDetail(
                                             data[index]['name'],
                                             data[index]['video'],
+                                            index,
                                             selectedDevice!)));
                               } else {
                                 selectedDevice =
@@ -108,6 +109,7 @@ class _PatientScreenState extends State<PatientScreen> {
                                           builder: (context) => RehabDetail(
                                               data[index]['name'],
                                               data[index]['video'],
+                                              index,
                                               selectedDevice!)));
                                 }
                               }
