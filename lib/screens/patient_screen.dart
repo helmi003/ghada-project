@@ -44,7 +44,7 @@ class _PatientScreenState extends State<PatientScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: lightColor,
-      appBar: appBar(context,AppLocalizations.of(context)!.homeScreen),
+      appBar: appBar(context, AppLocalizations.of(context)!.homeScreen),
       body: SafeArea(
         child: userData['rehabs'] == null || userData['rehabs'].isEmpty
             ? Center(
@@ -58,7 +58,10 @@ class _PatientScreenState extends State<PatientScreen> {
             : StreamBuilder(
                 stream: FirebaseFirestore.instance
                     .collection('rehabs')
-                    .where(FieldPath.documentId, whereIn: userData['rehabs'])
+                    .where(FieldPath.documentId,
+                        whereIn: userData['rehabs']
+                            .map((rehab) => rehab['rehabId'])
+                            .toList())
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
@@ -80,8 +83,10 @@ class _PatientScreenState extends State<PatientScreen> {
                             if (!isEnabled!) {
                               showDialog(
                                   context: context,
-                                  builder: (context) => ErrorMessage(AppLocalizations.of(context)!.alert,
-                                      AppLocalizations.of(context)!.openBluetooth));
+                                  builder: (context) => ErrorMessage(
+                                      AppLocalizations.of(context)!.alert,
+                                      AppLocalizations.of(context)!
+                                          .openBluetooth));
                             } else {
                               if (selectedDevice != null) {
                                 Navigator.push(
@@ -114,7 +119,8 @@ class _PatientScreenState extends State<PatientScreen> {
                                 }
                               }
                             }
-                          }, () {}, () {});
+                          }, () {}, () {},
+                              userData['rehabs'][index]['repeated']);
                         },
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,

@@ -107,7 +107,7 @@ class _RehabDetailState extends State<RehabDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: bgColor,
+      backgroundColor: lightColor,
       appBar: AppBar(
           backgroundColor: warmBlueColor,
           centerTitle: true,
@@ -119,7 +119,7 @@ class _RehabDetailState extends State<RehabDetail> {
               setState(() {
                 playingMessage = false;
               });
-              _sendMessage('stopRehabilitaion${widget.indx+1}');
+              _sendMessage('stopRehabilitaion${widget.indx + 1}');
             },
           ),
           shape: ContinuousRectangleBorder(
@@ -179,7 +179,7 @@ class _RehabDetailState extends State<RehabDetail> {
                                 controller.play();
                                 if (!playingMessage) {
                                   _sendMessage(
-                                      'playRehabilitaion${widget.indx+1}');
+                                      'playRehabilitaion${widget.indx + 1}');
                                   playingMessage = true;
                                 }
                               }
@@ -239,7 +239,9 @@ class _RehabDetailState extends State<RehabDetail> {
           Text(
             checkConnectivity,
             style: TextStyle(
-                color: warmBlueColor, fontSize: 20, fontWeight: FontWeight.w600),
+                color: warmBlueColor,
+                fontSize: 20,
+                fontWeight: FontWeight.w600),
           ),
           SizedBox(
             height: 10,
@@ -255,28 +257,38 @@ class _RehabDetailState extends State<RehabDetail> {
                 ),
                 color: warmBlueColor,
               ),
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: messages.length,
-                itemBuilder: (context, index) => Padding(
-                  padding: EdgeInsets.only(bottom: 5),
-                  child: Container(
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: silverColor.withOpacity(0.8),
-                      borderRadius: BorderRadius.all(Radius.circular(20)),
-                    ),
-                    child: Text(
-                      messages[index],
+              child: messages.length == 1 && messages[0] == "No messages yet!"
+                  ? Center(
+                      child: Text(
+                      messages[0],
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                         color: lightColor,
                       ),
+                    ))
+                  : ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: messages.length,
+                      itemBuilder: (context, index) => Padding(
+                        padding: EdgeInsets.only(bottom: 5),
+                        child: Container(
+                          padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            color: silverColor.withOpacity(0.8),
+                            borderRadius: BorderRadius.all(Radius.circular(20)),
+                          ),
+                          child: Text(
+                            messages[index],
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: lightColor,
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              ),
             ),
           ),
         ],
@@ -293,6 +305,12 @@ class _RehabDetailState extends State<RehabDetail> {
   void _onDataReceived(Uint8List data) {
     String dataString = String.fromCharCodes(data);
     setState(() {
+      if (messages[0] == "No messages yet!") {
+        messages.removeAt(0);
+      }
+      if(messages.length>5){
+        messages.removeRange(0, messages.length - 5);
+      }
       messages.add(dataString);
     });
   }

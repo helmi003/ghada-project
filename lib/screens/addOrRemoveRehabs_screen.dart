@@ -3,7 +3,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:ghada/utils/colors.dart';
-import 'package:ghada/widgets/acceptOrDecline.dart';
+import 'package:ghada/widgets/addRehabToPatient.dart';
+import 'package:ghada/widgets/removeRehabFromPatient.dart';
 import 'package:ghada/widgets/backAppbar.dart';
 import 'package:ghada/widgets/loadingWidget.dart';
 import 'package:ghada/widgets/reductionWidget.dart';
@@ -20,11 +21,14 @@ class addOrRemoveRehabs extends StatefulWidget {
 
 class _addOrRemoveRehabsState extends State<addOrRemoveRehabs> {
   bool isLoading = false;
+  TextEditingController controller = TextEditingController(text: 0.toString());
+  int repeated = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: lightColor,
-        appBar: backAppBar(context, "${AppLocalizations.of(context)!.rehabsOf} ${widget.patient['name']}"),
+        appBar: backAppBar(context,
+            "${AppLocalizations.of(context)!.rehabsOf} ${widget.patient['name']}"),
         body: StreamBuilder(
           stream: FirebaseFirestore.instance.collection('rehabs').snapshots(),
           builder: (context, snapshot) {
@@ -44,39 +48,47 @@ class _addOrRemoveRehabsState extends State<addOrRemoveRehabs> {
                           return ReductionWidget(
                               data[index]['name'],
                               true,
-                              !widget.patient['rehabs']
-                                  .contains(data[index].id),
-                              widget.patient['rehabs'].contains(data[index].id),
+                              !isRehabIdPresent(list, data[index].id),
+                              isRehabIdPresent(list, data[index].id),
                               () {}, () async {
                             showDialog(
                               context: context,
-                              builder: (context) => AcceptOrDecline(AppLocalizations.of(context)!.add,
+                              builder: (context) => AddRehabToPatient(
+                                  AppLocalizations.of(context)!.add,
                                   "${AppLocalizations.of(context)!.rehabTo} ${widget.patient['name']}",
                                   () async {
-                                setState(() {
-                                  isLoading = true;
-                                });
-                                list.add(data[index].id);
-                                await FirebaseFirestore.instance
-                                    .collection('users')
-                                    .doc(widget.patientId)
-                                    .update({'rehabs': list});
-                                Navigator.of(context).pop();
-                                setState(() {
-                                  isLoading = false;
-                                });
-                              }),
+                                if (controller.text != "") {
+                                  setState(() {
+                                    isLoading = true;
+                                  });
+                                  list.add({
+                                    "rehabId": data[index].id,
+                                    "repeated": int.parse(controller.text)
+                                  });
+                                  await FirebaseFirestore.instance
+                                      .collection('users')
+                                      .doc(widget.patientId)
+                                      .update({'rehabs': list});
+                                  Navigator.of(context).pop();
+                                  setState(() {
+                                    controller.text=0.toString();
+                                    isLoading = false;
+                                  });
+                                }
+                              }, controller),
                             );
                           }, () async {
                             showDialog(
                               context: context,
-                              builder: (context) => AcceptOrDecline(AppLocalizations.of(context)!.remove,
+                              builder: (context) => RemoveRehabFromPatient(
+                                  AppLocalizations.of(context)!.remove,
                                   "${AppLocalizations.of(context)!.removeRehabFrom} ${widget.patient['name']}",
                                   () async {
                                 setState(() {
                                   isLoading = true;
                                 });
-                                list.remove(data[index].id);
+                                list.removeWhere((element) =>
+                                    element['rehabId'] == data[index].id);
                                 await FirebaseFirestore.instance
                                     .collection('users')
                                     .doc(widget.patientId)
@@ -87,7 +99,10 @@ class _addOrRemoveRehabsState extends State<addOrRemoveRehabs> {
                                 });
                               }),
                             );
-                          });
+                          },
+                              isRehabIdPresent(list, data[index].id)
+                                  ? repeatedRehabs(list, data[index].id)
+                                  : -1);
                         },
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
@@ -99,5 +114,23 @@ class _addOrRemoveRehabsState extends State<addOrRemoveRehabs> {
             }
           },
         ));
+  }
+
+  bool isRehabIdPresent(List<dynamic> rehabs, String rehabId) {
+    for (var rehab in rehabs) {
+      if (rehab['rehabId'] == rehabId) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  int repeatedRehabs(List<dynamic> rehabs, String rehabId) {
+    for (var rehab in rehabs) {
+      if (rehab['rehabId'] == rehabId) {
+        return rehab['repeated'];
+      }
+    }
+    return -1;
   }
 }

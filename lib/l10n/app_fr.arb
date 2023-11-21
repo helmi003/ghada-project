@@ -48,5 +48,8 @@
     "settings": "Paramètres",
     "preferedLanguage": "Choisir la langue préférée",
     "changeLanguage": "Changer la langue",
-    "homeScreen": "Écran d'accueil"
+    "homeScreen": "Écran d'accueil",
+    "repeated":"Il faut répéter cette Rééducation ",
+    "times":" fois",
+    "numberOfRepeatation":"Nombre de répétition: "
 }

@@ -28,17 +28,7 @@ class _RehabTestState extends State<RehabTest> {
   List<String> messages = [];
   @override
   void initState() {
-    messages.add('Test');
-    messages.add('Test');
-    messages.add('Test');
-    messages.add('Test');
-    messages.add('Test');
-    messages.add('Test');
-    messages.add('Test');
-    messages.add('Test');
-    messages.add('Test');
-    messages.add('Test');
-    messages.add('Test');
+    messages.add('No messages yet!');
     try {
       controller = VideoPlayerController.asset('assets/videos/${widget.video}');
       _initializeVideoPlayerFuture = controller.initialize();
@@ -213,7 +203,9 @@ class _RehabTestState extends State<RehabTest> {
           Text(
             'Not connected',
             style: TextStyle(
-                color: warmBlueColor, fontSize: 20, fontWeight: FontWeight.w600),
+                color: warmBlueColor,
+                fontSize: 20,
+                fontWeight: FontWeight.w600),
           ),
           SizedBox(
             height: 10,
@@ -229,32 +221,55 @@ class _RehabTestState extends State<RehabTest> {
                 ),
                 color: warmBlueColor,
               ),
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: messages.length,
-                itemBuilder: (context, index) => Padding(
-                  padding: EdgeInsets.only(bottom: 5),
-                  child: Container(
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: silverColor.withOpacity(0.8),
-                      borderRadius: BorderRadius.all(Radius.circular(20)),
-                    ),
-                    child: Text(
-                      messages[index],
+              child: messages.length == 1 && messages[0] == "No messages yet!"
+                  ? Center(
+                      child: Text(
+                      messages[0],
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                         color: lightColor,
                       ),
+                    ))
+                  : ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: messages.length,
+                      itemBuilder: (context, index) => Padding(
+                        padding: EdgeInsets.only(bottom: 5),
+                        child: Container(
+                          padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            color: silverColor.withOpacity(0.8),
+                            borderRadius: BorderRadius.all(Radius.circular(20)),
+                          ),
+                          child: Text(
+                            messages[index],
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: lightColor,
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              ),
             ),
           ),
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.plus_one),
+          onPressed: () {
+            setState(() {
+              if (messages[0] == "No messages yet!") {
+                messages.removeAt(0);
+              }
+              if (messages.length > 5) {
+                messages.removeRange(0, messages.length - 5);
+              }
+              messages.add('helmi');
+            });
+          }),
     );
   }
 

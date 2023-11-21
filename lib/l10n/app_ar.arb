@@ -48,5 +48,8 @@
     "settings": "الإعدادات",
     "preferedLanguage": "اختيار اللغة المفضلة",
     "changeLanguage": "تغيير اللغة",
-    "homeScreen": "الصفحة الرئيسية"
+    "homeScreen": "الصفحة الرئيسية",
+    "repeated":"يجب تكرار هذا التأهيل ",
+    "times":" مرات",
+    "numberOfRepeatation":"عدد التكرارات: "
 }

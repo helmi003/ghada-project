@@ -48,5 +48,8 @@
     "settings":"Settings",
     "preferedLanguage":"Choose prefered language",
     "changeLanguage":"Change language",
-    "homeScreen":"Home screen"
+    "homeScreen":"Home screen",
+    "repeated":"This Rehabilitation must be repeated ",
+    "times":" times",
+    "numberOfRepeatation":"Number of repetitions: "
 }
