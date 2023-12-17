@@ -49,7 +49,6 @@ class _SelectBondedDevicePage extends State<SelectBondedDevicePage> {
       _startDiscovery();
     }
 
-    // Setup a list of the bonded devices
     FlutterBluetoothSerial.instance
         .getBondedDevices()
         .then((List<BluetoothDevice> bondedDevices) {
@@ -116,6 +115,7 @@ class _SelectBondedDevicePage extends State<SelectBondedDevicePage> {
               },
             ))
         .toList();
+
     return Scaffold(
       backgroundColor: lightColor,
       appBar: AppBar(
